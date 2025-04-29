@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add User</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>SkillCircle</title>
 </head>
 <body>
     <div class="admin-container">
         <h2>Add User</h2>
-        <form id="addUser Form" enctype="multipart/form-data">
+        <form id="addUserForm" enctype="multipart/form-data">
             <input type="text" id="name" name="name" placeholder="Name" required>
             <input type="email" id="email" name="email" placeholder="Email" required>
             <input type="password" id="password" name="password" placeholder="Password" required>
@@ -23,17 +22,19 @@
         document.getElementById('submitLink').addEventListener('click', async (e) => {
             e.preventDefault(); // Prevent the default anchor behavior
 
-            const formData = new FormData(document.getElementById('addUser Form'));
+            const formData = new FormData(document.getElementById('addUserForm'));
 
             try {
                 const response = await fetch('/signup', {
                     method: 'POST',
+                    credentials: 'same-origin',
                     body: formData
                 });
 
                 if (response.ok) {
                     const message = await response.text();
                     alert(message); // Show success message
+                    window.location.href = 'selectskill.html'
                 } else {
                     const errorMessage = await response.text();
                     document.getElementById('errorMessage').innerText = 'Error: ' + errorMessage; // Show error message
@@ -43,5 +44,6 @@
             }
         });
     </script>
+
 </body>
 </html>
