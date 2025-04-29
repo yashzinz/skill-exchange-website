@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <h2>Add User</h2>
+        <form id="addUser Form" enctype="multipart/form-data">
+            <input type="text" id="name" name="name" placeholder="Name" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="file" id="video" name="video" accept="video/*" required><br><br>
+            <a href="#" id="submitLink">Add User</a>
+        </form>
+        <p id="errorMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById('submitLink').addEventListener('click', async (e) => {
+            e.preventDefault(); // Prevent the default anchor behavior
+
+            const formData = new FormData(document.getElementById('addUser Form'));
+
+            try {
+                const response = await fetch('/signup', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const message = await response.text();
+                    alert(message); // Show success message
+                } else {
+                    const errorMessage = await response.text();
+                    document.getElementById('errorMessage').innerText = 'Error: ' + errorMessage; // Show error message
+                }
+            } catch (error) {
+                document.getElementById('errorMessage').innerText = 'Error: ' + error.message; // Handle network errors
+            }
+        });
+    </script>
+</body>
+</html>
