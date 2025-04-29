@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const session = require('express-session'); 
 const User = require('../models/user');
 
 const multer = require('multer');
@@ -65,10 +66,14 @@ router.post('/signup', upload.single('video'), async (req, res) => {
     const { name, email, password } = req.body;
     const videoPath = req.file.path;
 
-    const newUser  = new User({ name, email, password, video: videoPath });
+    const newUser = new User({ name, email, password, video: videoPath });
 
     try {
-        await newUser .save();
+        await newUser.save();
+        // Store user ID and email in session
+        req.session.userId = newUser._id;
+        req.session.email = newUser.email;
+
         res.status(201).send('User  registered successfully!');
     } catch (error) {
         res.status(400).send('Error registering user: ' + error.message);

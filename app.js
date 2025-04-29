@@ -1,49 +1,85 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session'); 
+
 const bodyParser = require('body-parser');
+const multer = require('multer');
 const path = require('path');
+
 const User = require('./models/user');
-
-
-const app = express();
-const port = 3000;
-
-// Middleware
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/SkillCircleSignUp', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
+const app = express();
+const port = 3000;
+
+// Middleware
+app.use(session({
+    secret: 'skillsecret', // Replace with a strong secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Routes
 const users = require('./routes/users');
 app.use('/', users);
 
-// signup route
-app.post('/signup', async (req, res) => {
-    const { name, email, password, video } = req.body;
-    try {
-        const emailcheck = await User.findOne({email});
-        if (emailcheck) {
-            res.json({ message: 'error' });
+const skillRouter = require('./routes/skillroute');
+app.use('/', skillRouter);
+
+// Set up Multer for video uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Append extension
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// Sign-up route
+app.post('/signup', upload.single('video'), async (req, res) => {
+    const { name, email, password } = req.body;
+    const videoPath = req.file.path;
+
+    const emailcheck = await User.findOne({ email }); 
+        if (emailcheck) { 
+            return res.json({ message: 'error' });
         }
-        const newUser = new User({ name, email, password, video });
-        await newUser.save()
-        res.status(201).json(newUser);
+
+    try {
+        const newUser = new User({ name, email, password, video: videoPath });
+        await newUser.save();
+        // Store user ID and email in session
+        req.session.userId = newUser._id;
+        req.session.email = newUser.email;
+
+        res.status(201).send('User registered successfully!');
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).send('Error registering user: ' + error.message);
     }
 });
 
 // login route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
+
     try {
         const user = await User.findOne({ email, password });
         if (user) {
+
+            req.session.userId = user._id; // Set session on login
+            req.session.email = user.email;
             res.json({ message: 'Login successful' });
             
         } else {
@@ -55,5 +91,5 @@ app.post('/login', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on http://localhost:${port}/signup.html`);
 });

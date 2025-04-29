@@ -17,6 +17,13 @@ const UserSchema = new mongoose.Schema({
     video: { 
         type: String, 
         required: true 
+    },
+    skills: { 
+        type: [String], 
+        default: [] 
+    },
+    points: {
+        type: Number
     }
 });
 
