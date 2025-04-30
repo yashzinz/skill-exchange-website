@@ -1,4 +1,3 @@
-    // import important modules to for storing and reading files
     const express = require('express');
     const mongoose = require('mongoose');
     const session = require('express-session'); 
@@ -7,9 +6,8 @@
     const multer = require('multer');
     const path = require('path');
 
-    // import files to read
+
     const User = require('./models/user');
-    const adminauth = require('./middleware/adminmdw')
 
     // MongoDB connection
     mongoose.connect('mongodb://localhost:27017/SkillCircleSignUp', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,19 +17,19 @@
     const app = express();
     const port = 3000;
 
-    // Middlewares
+    // Middleware
     app.use(session({
-        secret: 'skillsecret',
+        secret: 'skillsecret', // Replace with a strong secret key
         resave: false,
         saveUninitialized: true,
-        cookie: { secure: false }
+        cookie: { secure: false } // Set to true if using HTTPS
     }));
 
     app.use(bodyParser.json());
     app.use(express.static(path.join(__dirname, 'public')));
     app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-    app.get('/admin', adminauth, (req, res) => {
+    app.get('/admin', (req, res) => {
         res.sendFile(path.join(__dirname, 'public/admin/admin.html'));
     });
 
@@ -62,7 +60,7 @@
         const { name, email, password } = req.body;
         const videoPaths = req.files.map(file => file.path); // Get paths of uploaded files
 
-        // check if email is in database
+
         const emailcheck = await User.findOne({ email }); 
         if (emailcheck) { 
             return res.status(409).json({ message: 'Email already exists' });
@@ -74,8 +72,9 @@
             // Store user ID and email in session
             req.session.userId = newUser._id;
             req.session.email = newUser.email;
-            res.status(201).send('User registered successfully!');
 
+
+                res.status(201).send('User registered successfully!');
             } catch (error) {
                 res.status(400).send('Error registering user: ' + error.message);
             }
