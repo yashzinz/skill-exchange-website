@@ -4,7 +4,6 @@ const User = require('../models/user');
 const {ensureSignedUp} = require('../middleware/auth')
 
 // skills route
-
 router.post('/add-skills', ensureSignedUp, async (req, res) => {
     const userId = req.session.userId; // Get user ID from session
     console.log('User ID from session:', userId); // Debugging line
