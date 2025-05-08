@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SkillCircle</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="login-container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <a href="#" id="loginBtn">Log In</a>
-        </form>
-        <p id="errorMessage"></p>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <a href="#" id="loginBtn">Log In</a>
+      </form>
+      <p id="errorMessage"></p>
     </div>
     <script>
-        document.getElementById('loginBtn').addEventListener('click', async (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        const response = await fetch('/login', {
-            method: 'POST',
+      document
+        .getElementById("loginBtn")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          const response = await fetch("/login", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            alert("Login successful!");
+            window.location.href = "home.html";
+          } else {
+            document.getElementById("errorMessage").textContent = data.error;
+          }
         });
-        
-        const data = await response.json();
-        if (response.ok) {
-            alert('Login successful!');
-            window.location.href = 'home.html'
-        } else {
-            document.getElementById('errorMessage').textContent = data.error;
-        }
-    });
     </script>
-</body>
+  </body>
 </html>
