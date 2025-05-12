@@ -1,52 +1,51 @@
-    // import important modules to for storing and reading files
-    const express = require('express');
-    const mongoose = require('mongoose');
-    const session = require('express-session'); 
+// import important modules to for storing and reading files
+const express = require('express');
+const mongoose = require('mongoose');
+const session = require('express-session'); 
 
-    const bodyParser = require('body-parser');
-    const path = require('path');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-    // import files to read
-    const User = require('./models/user');
-    const adminauth = require('./middleware/adminmdw')
+// import files to read
+const adminauth = require('./middleware/adminmdw')
 
-    // MongoDB connection
-    mongoose.connect('mongodb://localhost:27017/SkillCircleSignUp', { useNewUrlParser: true, useUnifiedTopology: true })
-        .then(() => console.log('MongoDB connected'))
-        .catch(err => console.log(err));
+// MongoDB connection
+mongoose.connect('mongodb://localhost:27017/SkillCircleSignUp', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
-    const app = express();
-    const port = 3000;
+const app = express();
+const port = 3000;
 
-    // Middlewares
-    app.use(session({
-        secret: 'skillsecret',
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false }
-    }));
+// Middlewares
+app.use(session({
+    secret: 'skillsecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
-    app.use(bodyParser.json());
-    app.use(express.static(path.join(__dirname, 'public')));
-    app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-    app.get('/admin', adminauth, (req, res) => {
-        res.sendFile(path.join(__dirname, 'public/admin/admin.html'));
-    });
+app.get('/admin', adminauth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/admin/admin.html'));
+});
 
-    // Routes
-    const users = require('./routes/users');
-    app.use('/', users);
+// Routes
+const users = require('./routes/users');
+app.use('/', users);
 
-    const skillRouter = require('./routes/skillroute');
-    app.use('/', skillRouter);
+const skillRouter = require('./routes/skillroute');
+app.use('/', skillRouter);
 
-    const adminRouter = require('./routes/adminroute');
-    app.use('/', adminRouter);
+const adminRouter = require('./routes/adminroute');
+app.use('/', adminRouter);
 
-    const loginSignupRouter = require('./routes/login-signup');
-    app.use('/', loginSignupRouter)
+const loginSignupRouter = require('./routes/login-signup');
+app.use('/', loginSignupRouter)
 
-    app.listen(port, () => {
-        console.log(`Server running on http://localhost:${port}`);
-    });
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});
