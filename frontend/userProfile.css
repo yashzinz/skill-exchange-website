@@ -1,0 +1,194 @@
+:root {
+  --teal: #1abc9c;
+  --dark-teal: #16a085;
+  --coral: #ff6b6b;
+  --white: #ffffff;
+  --off-white: #f5f5f5;
+  --light-gray: #ecf0f1;
+  --medium-gray: #bdc3c7;
+  --dark-gray: #2c3e50;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--off-white);
+  color: var(--dark-gray);
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  color: white;
+  z-index: 999;
+}
+
+.hamburger {
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: var(--dark-teal);
+  cursor: pointer;
+}
+
+.hamburger.hidden {
+  display: none; /* Hide the hamburger icon */
+}
+
+.menu h1 {
+  color: var(--teal);
+  margin-bottom: 2rem;
+  padding-left: 10%;
+}
+.menu {
+  position: fixed;
+  top: 0;
+  left: -100%; /* Initially hidden */
+  height: 100%;
+  width: 250px;
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  background-color: var(--white);
+  padding: 0.5rem 0.5rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  text-decoration: none;
+}
+
+.menu ul li {
+  margin-bottom: 0.8rem;
+}
+
+.menu ul li a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  color: var(--dark-gray);
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+.menu a:hover {
+  background-color: var(--light-gray);
+}
+
+.menu .active a {
+  background-color: var(--teal);
+  color: var(--white);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: var(--dark-teal);
+  cursor: pointer;
+}
+.hamburger:hover,
+.close-button:hover {
+  color: var(--teal);
+}
+
+.menu.open {
+  left: 0; /* Slide in from the left */
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.avatar {
+  width: 100px;
+  height: 100px;
+  background-color: #16a085;
+  border-radius: 50%;
+}
+.hidden {
+  display: none;
+}
+form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+form input,
+form textarea,
+form button,
+.edit-btn {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+}
+
+form button,
+.edit-btn {
+  background-color: var(--teal);
+  color: white;
+  cursor: pointer;
+}
+
+/* Skills Section */
+.skills {
+  margin-top: 20px;
+}
+
+.skill-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.hide {
+  display: none;
+}
+.skill-tags span {
+  background-color: var(--teal);
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: white;
+  font-size: 14px;
+}
+
+#add-skill-form {
+  margin-top: 10px;
+  gap: 10px;
+  display: flex;
+}
+
+#add-skill-form input {
+  padding: 5px;
+}
+
+#add-skill-button,
+#submit-skill-button,
+#cancel-skill-button {
+  background-color: var(--teal);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}

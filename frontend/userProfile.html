@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>userProfile</title>
+    <link rel="stylesheet" href="userProfile.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <button id="hamburger" class="hamburger">&#9776;</button>
+    </header>
+
+    <!--------------NAV BAR----------------->
+
+    <nav id="sideMenu" class="menu">
+      <button id="closeButton" class="close-button">&times;</button>
+      <h1>Skill Circle</h1>
+      <ul>
+        <li>
+          <a href="homePage.html"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="active">
+          <a href="#"><i class="fas fa-compass"></i> Browse</a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-trophy"></i> Rewards</a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-info-circle"></i> About Us</a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        </li>
+      </ul>
+    </nav>
+    <!-----------USER PROFILE--------------->
+    <main class="main-content">
+      <section class="profile">
+        <div class="profile-header">
+          <div class="avatar"></div>
+          <div class="profile-info">
+            <h1 id="name-display">Welcome, User</h1>
+            <p id="field-display">
+              <strong>Field of Study:</strong> Not provided
+            </p>
+            <p id="cert-display">
+              <strong>Certification:</strong> Not provided
+            </p>
+            <p id="exp-display"><strong>Experience:</strong> Not provided</p>
+            <button type="button" id="edit-profile-button" class="edit-btn">
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <!--Edit form-->
+        <form id="profile-form" class="hidden">
+          <label>
+            Field of Study:
+            <input
+              type="text"
+              id="field-input"
+              placeholder="Enter your field of study"
+            />
+          </label>
+          <label>
+            Certification:
+            <input
+              type="text"
+              id="cert-input"
+              placeholder="Enter your certification"
+            />
+          </label>
+          <label>
+            Experience:
+            <textarea
+              id="exp-input"
+              placeholder="Enter your experience"
+            ></textarea>
+          </label>
+          <label>
+            Upload Certificates:
+            <input type="file" id="cert-ud" />
+          </label>
+          <button type="button" id="save-profile">Save Profile</button>
+        </form>
+
+        <!--Skills section-->
+        <section class="skills">
+          <h2>Skills</h2>
+          <div class="skill-tags" id="skills-list">
+            <p id="no-skills-message">No skills added yet.</p>
+          </div>
+          <button type="button" id="add-skill-button">Add Skill</button>
+          <div>
+            <form id="add-skill-form" class="hide">
+              <input type="text" id="new-skill" placeholder="Enter a skill" />
+              <button type="button" id="submit-skill-button">Submit</button>
+              <button type="button" id="cancel-skill-button">Cancel</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Quests Section -->
+        <section class="quests">
+          <h2>Quests</h2>
+          <div>
+            <h3>Ongoing Quests</h3>
+            <ul id="ongoing-quests">
+              <li>No ongoing quests.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Completed Quests</h3>
+            <ul id="completed-quests">
+              <li>No completed quests.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Quests Created</h3>
+            <ul id="created-quests">
+              <li>No quests created yet.</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const hamburger = document.getElementById("hamburger");
+        const sideMenu = document.getElementById("sideMenu");
+        const closeButton = document.getElementById("closeButton");
+
+        hamburger.addEventListener("click", () => {
+          sideMenu.classList.add("open");
+          hamburger.classList.add("hidden"); // Hide the hamburger icon
+        });
+
+        closeButton.addEventListener("click", () => {
+          sideMenu.classList.remove("open");
+          hamburger.classList.remove("hidden"); // Show the hamburger icon
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const editProfileButton = document.getElementById(
+          "edit-profile-button"
+        );
+        const saveProfileButton = document.getElementById("save-profile");
+        const cancelEditButton = document.getElementById("cancel-edit");
+        const profileForm = document.getElementById("profile-form");
+        const profileInfo = document.querySelector(".profile-info");
+
+        const fieldDisplay = document.getElementById("field-display");
+        const certDisplay = document.getElementById("cert-display");
+        const expDisplay = document.getElementById("exp-display");
+
+        const fieldInput = document.getElementById("field-input");
+        const certInput = document.getElementById("cert-input");
+        const expInput = document.getElementById("exp-input");
+
+        // Show the form when edit button is clicked
+        editProfileButton.addEventListener("click", () => {
+          profileForm.classList.remove("hidden");
+          profileInfo.classList.add("hidden");
+        });
+
+        // Save and update profile details
+        saveProfileButton.addEventListener("click", () => {
+          fieldDisplay.textContent = `Field of Study: ${fieldInput.value}`;
+          certDisplay.textContent = `Certification: ${certInput.value}`;
+          expDisplay.textContent = `Experience: ${expInput.value}`;
+
+          profileForm.classList.add("hidden");
+          profileInfo.classList.remove("hidden");
+        });
+
+        // Cancel editing and hide the form
+        cancelEditButton.addEventListener("click", () => {
+          profileForm.classList.add("hidden");
+          profileInfo.classList.remove("hidden");
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const skillsList = document.getElementById("skills-list");
+        const noSkillsMessage = document.getElementById("no-skills-message");
+        const addSkillButton = document.getElementById("add-skill-button");
+        const addSkillForm = document.getElementById("add-skill-form");
+        const newSkillInput = document.getElementById("new-skill");
+        const submitSkillButton = document.getElementById(
+          "submit-skill-button"
+        );
+        const cancelSkillButton = document.getElementById(
+          "cancel-skill-button"
+        );
+
+        // Show the input form when "Add Skill" is pressed
+        addSkillButton.addEventListener("click", () => {
+          addSkillForm.classList.remove("hide");
+          addSkillButton.classList.add("hide"); // Hide the "Add Skill" button
+        });
+
+        // Add the skill when the "Submit" button is pressed
+        submitSkillButton.addEventListener("click", () => {
+          const skillValue = newSkillInput.value.trim();
+          if (skillValue === "") {
+            alert("Please enter a skill.");
+            return;
+          }
+
+          // Remove "No skills added yet" message
+          if (noSkillsMessage) {
+            noSkillsMessage.remove();
+          }
+
+          // Create a new skill tag
+          const skillTag = document.createElement("span");
+          skillTag.textContent = skillValue;
+          skillTag.classList.add("skill-tag");
+
+          // Add functionality to remove the skill tag on click
+          skillTag.addEventListener("click", () => {
+            skillTag.remove();
+            if (!skillsList.querySelector("span")) {
+              // Show "No skills added yet" message if no skills are left
+              const noSkills = document.createElement("p");
+              noSkills.textContent = "No skills added yet.";
+              noSkills.id = "no-skills-message";
+              skillsList.appendChild(noSkills);
+            }
+          });
+
+          skillsList.appendChild(skillTag);
+          newSkillInput.value = ""; // Clear the input
+          addSkillForm.classList.add("hide"); // Hide the form
+          addSkillButton.classList.remove("hide"); // Show "Add Skill" button
+        });
+
+        // Cancel adding a skill
+        cancelSkillButton.addEventListener("click", () => {
+          newSkillInput.value = ""; // Clear the input
+          addSkillForm.classList.add("hide"); // Hide the form
+          addSkillButton.classList.remove("hide"); // Show "Add Skill" button
+        });
+      });
+    </script>
+  </body>
+</html>
