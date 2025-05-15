@@ -1,0 +1,244 @@
+:root {
+    /* YOUR SPECIFIED PALETTE */
+    --teal: #008081;
+    --dark-teal: #16A085;   /* Primary action button color */
+    --coral: #FF6B6B;       /* Accents: logo, nav buttons */
+    --purple: #9B59B6;      /* Unused in this specific layout for now */
+    --dark-gray: #2C3E50;   /* Main content box (form card) background */
+    --darker-gray: #34495E; /* Page background */
+    --off-white: #F5F5F5;   /* Primary text */
+    --white: #FFFFFF;       /* Headings / Important text */
+    --light-teal: #D1F2EB;  /* Secondary links, muted text if needed */
+
+    --input-field-bg: var(--darker-gray); 
+    --form-border-color: #4A5C6E; 
+    --placeholder-text-color: #A0B2C2; 
+    --error-color: var(--coral); 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--darker-gray);
+    color: var(--off-white); 
+    line-height: 1.6;
+    display: flex; 
+    flex-direction: column;
+    min-height: 100vh; /*   content is pushed down */
+}
+
+header {
+    background-color: var(--darker-gray);
+    padding: 0 5%;
+    border-bottom: 1px solid var(--form-border-color); 
+    width: 100%;
+}
+nav { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    height: 80px; 
+}
+
+.logo { 
+    font-size: 1.8em; 
+    font-weight: bold; 
+    color: var(--white); 
+}
+
+
+.logo .logo-highlight { 
+    color: var(--coral); 
+}
+
+nav ul {
+     list-style: none; 
+     display: flex; 
+}
+
+nav ul li { 
+    margin-left: 25px; 
+}
+
+nav ul li a { 
+    text-decoration: none; 
+    color: var(--off-white); 
+    font-size: 0.95em; 
+    transition: color 0.3s ease; 
+}
+
+nav ul li a:hover { 
+    color: var(--coral); 
+} /* Coral for nav link hover */
+
+nav ul li a i { 
+    margin-left: 5px; 
+    font-size: 0.8em; 
+
+}
+.auth-buttons .btn {
+    padding: 10px 22px; border: none; 
+    border-radius: 25px;
+    cursor: pointer; 
+    font-weight: bold; 
+    font-size: 0.9em; 
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+    background-color: var(--coral); /* Coral for Log In button */
+    color: var(--white);
+}
+
+.btn-signup { /* Adjusted name to match common practice */
+    background-color: transparent;
+    color: var(--coral);
+    border: 1.5px solid var(--coral);
+}
+
+.btn-signup:hover { 
+    background-color: var(--coral); 
+    color: var(--white); 
+}
+
+
+main {
+    flex-grow: 1; /* Allows main to take up available space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    width: 100%;
+}
+
+.form-page-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.form-content-box {
+    background-color: var(--dark-gray); /* from box bg */
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 550px; /* adjusted based on form width */
+}
+
+.form-content-box h2 {
+    color: var(--white); /* main heading */
+    font-size: 2.1em;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.form-content-box .subtitle {
+    color: var(--off-white); /* fro subtitle */
+    font-size: 0.95em;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#addUserForm input[type="text"],
+#addUserForm input[type="email"],
+#addUserForm input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 18px;
+    background-color: var(--input-field-bg); /* Input BG */
+    border: 1px solid var(--form-border-color); /* Input border */
+    border-radius: 8px;
+    color: var(--off-white); /* Text color inside input */
+    font-size: 1em;
+}
+
+#addUserForm input::placeholder { 
+    color: var(--placeholder-text-color); 
+}
+
+.password-input-group {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.password-input-group input[type="password"] { 
+    margin-bottom: 0; 
+    padding-right: 45px; 
+}
+
+.toggle-password-form {
+    position: absolute; 
+    top: 50%; right: 15px; 
+    transform: translateY(-50%);
+    color: var(--placeholder-text-color); 
+    cursor: pointer;
+}
+
+.file-input-label {
+    display: block; 
+    font-size: 0.9em; 
+    color: var(--off-white);
+    margin-bottom: 6px; margin-top: 10px;
+}
+
+.file-input-styled {
+    width: 100%; 
+    padding: 10px; 
+    margin-bottom: 18px;
+    background-color: var(--input-field-bg);
+    border: 1px solid var(--form-border-color);
+    border-radius: 8px; 
+    color: var(--placeholder-text-color); 
+    font-size: 0.9em; 
+    cursor: pointer;
+}
+
+.file-input-styled::-webkit-file-upload-button,
+.file-input-styled::file-selector-button {
+    background-color: var(--dark-teal); /* Using dark-teal for file button */
+    color: var(--white);
+    border: none; 
+    padding: 8px 12px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    margin-right: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.file-input-styled::-webkit-file-upload-button:hover,
+.file-input-styled::file-selector-button:hover {
+    background-color: var(--teal); /* Lighter teal for hover */
+}
+
+.btn-submit-form {
+    display: block; 
+    width: 100%; 
+    padding: 12px;
+    background-color: var(--dark-teal); /* Submit button using dark-teal */
+    color: var(--white) !important;
+    border: none; 
+    border-radius: 8px;
+    font-size: 1.1em; 
+    font-weight: bold; 
+    text-align: center; 
+    text-decoration: none;
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    margin-top: 20px;
+}
+
+.btn-submit-form:hover {
+    background-color: var(--teal); /* Lighter teal for hover */
+}
+
+.error-message-text {
+    color: var(--error-color); /* Using coral for errors */
+    font-size: 0.9em; 
+    text-align: center;
+    margin-top: 15px; 
+    min-height: 1.2em;
+}

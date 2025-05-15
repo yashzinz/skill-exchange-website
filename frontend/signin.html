@@ -3,21 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillCircle</title>
+    <link rel="stylesheet" href="SignIn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Sign In</title>
 </head>
 <body>
-    <div class="admin-container">
-        <h2>Add User</h2>
-        <form id="addUserForm" enctype="multipart/form-data">
-            <input type="text" id="name" name="name" placeholder="Name" required>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <input type="file" id = "videos "name="videos" accept="video/*" multiple required> <!-- Allow multiple files --><br><br>
 
-            <a href="#" id="submitLink">Add User</a>
-        </form>
-        <p id="errorMessage"></p>
-    </div>
+ <header>
+        <nav>
+            <div class="logo">
+                Skill<span class="logo-highlight">Circle</span>
+            </div>
+            <ul>
+                <li><a href="homePage.html">Home</a></li>
+                <li><a href="dashboard.html">Courses</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="btn btn-login">Log In</button>
+                <button class="btn btn-signup">Sign Up</button> <!-- Changed from Sign In Now for consistency -->
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-page-container">
+            <div class="form-content-box">
+                <h2>Add User</h2>
+                <p class="subtitle">Provide the details below to add a new user.</p>
+                
+                <form id="addUserForm" enctype="multipart/form-data">
+                    <input type="text" id="name" name="name" placeholder="Name" required>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    
+                    <div class="password-input-group">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <i class="fas fa-eye toggle-password-form" data-target="password"></i>
+                    </div>
+
+                    <label for="videos" class="file-input-label">Upload Videos:</label>
+                    <input type="file" id="videos" name="videos" accept="video/*" multiple required class="file-input-styled">
+
+                 <!--<label for="images" class="file-input-label">Upload Images:</label>
+                    <input type="file" id="images" name="images" accept="image/*" multiple required class="file-input-styled"> -->
+                    
+                    <a href="#homepage with username" id="submitLink" class="btn-submit-form">Add User</a>
+                </form>
+                <p id="errorMessage" class="error-message-text"></p>
+            </div>
+        </div>
+    </main>
 
     <script>
         document.getElementById('submitLink').addEventListener('click', async (e) => {
@@ -44,7 +80,21 @@
                 document.getElementById('errorMessage').innerText = 'Error: ' + error.message; // Handle network errors
             }
         });
-    </script>
 
+        // Password toggle script (keep or move to your main JS file)
+        document.querySelectorAll('.toggle-password-form').forEach(item => {
+            item.addEventListener('click', function (e) {
+                const targetId = e.target.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                if (passwordInput) {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    e.target.classList.toggle('fa-eye');
+                    e.target.classList.toggle('fa-eye-slash');
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
