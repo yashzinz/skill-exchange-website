@@ -266,39 +266,39 @@ body {
             padding: 15px;
         }
 
-        .tutorial-title {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-            color: var(--dark-gray);
-        }
+.tutorial-title {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: var(--dark-gray);
+}
 
-        .tutorial-author {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            color: var(--medium-gray);
-            font-size: 0.9rem;
-        }
+.tutorial-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+}
 
-        .author-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: var(--medium-gray);
-            margin-right: 10px;
-            overflow: hidden;
-        }
+.author-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--medium-gray);
+    margin-right: 10px;
+    overflow: hidden;
+}
 
-        .tutorial-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--medium-gray);
-        }
+.tutorial-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--medium-gray);
+}
 
-        .rating {
-            color: #FFC107; /* Gold color for stars */
-        }
+.rating {
+    color: #FFC107; /* Gold color for stars */
+}
 
 /* right xp panel */
 .xp-panel {
@@ -450,24 +450,4 @@ body {
     background-color: var(--dark-teal);
 } 
 
- /* Responsive Design */
-@media (max-width: 1200px) {
-    .dashboard-container {
-        grid-template-columns: 250px 1fr;
-    }
-    .xp-panel {
-        display: none;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard-container {
-        grid-template-columns: 1fr;
-    }
-    .dashboard-nav {
-        order: -1;
-    }
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
-} 
+ 
