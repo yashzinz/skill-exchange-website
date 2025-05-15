@@ -266,6 +266,7 @@ form button,
   padding: 20px;
   border-radius: 10px;
   color: var(--dark-gray); /* Dark gray text */
+  position: relative;
 }
 
 #quests-section h2 {
