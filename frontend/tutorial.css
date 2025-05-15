@@ -231,6 +231,7 @@ body {
 }
 
 .small-thumbnail {
+    background: var(--dark-gray);
     height: 200px;
     position: relative;
 }
