@@ -24,8 +24,8 @@
         <li>
           <a href="homePage.html"><i class="fas fa-home"></i> Home</a>
         </li>
-        <li class="active">
-          <a href="#"><i class="fas fa-compass"></i> Browse</a>
+        <li>
+          <a href="dashboard.html"><i class="fas fa-compass"></i> Browse</a>
         </li>
         <li>
           <a href="#"><i class="fas fa-trophy"></i> Rewards</a>
@@ -37,6 +37,13 @@
           <a href="#"><i class="fas fa-cog"></i> Settings</a>
         </li>
       </ul>
+      <div class="user-prof active">
+        <img
+          src="https://randomuser.me/api/portraits/women/68.jpg"
+          alt="User Profile"
+        />
+        <span>My Profile</span>
+      </div>
     </nav>
     <!-----------USER PROFILE--------------->
     <main class="main-content">
@@ -97,13 +104,23 @@
             <p id="no-skills-message">No skills added yet.</p>
           </div>
           <button type="button" id="add-skill-button">Add Skill</button>
-          <div>
-            <form id="add-skill-form" class="hide">
-              <input type="text" id="new-skill" placeholder="Enter a skill" />
-              <button type="button" id="submit-skill-button">Submit</button>
-              <button type="button" id="cancel-skill-button">Cancel</button>
-            </form>
-          </div>
+          <form id="add-skill-form" class="hide">
+            <input type="text" id="new-skill" placeholder="Enter a skill" />
+            <button type="button" id="submit-skill-button">Submit</button>
+            <button type="button" id="cancel-skill-button">Cancel</button>
+          </form>
+        </section>
+
+        <!--Bio section-->
+        <section class="bio">
+          <h2>Bio</h2>
+          <p id="bio-display">No bio added yet.</p>
+          <button type="button" id="edit-bio-button">Edit Bio</button>
+          <form id="bio-form" class="hide">
+            <textarea id="bio-input" placeholder="Enter your bio"></textarea>
+            <button type="button" id="save-bio-button">Save</button>
+            <button type="button" id="cancel-bio-button">Cancel</button>
+          </form>
         </section>
 
         <!-- Quests Section -->
@@ -133,9 +150,21 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        // Initialize all features
+        setupMenu();
+        setupProfile();
+        setupSkills();
+        setupBio();
+      });
+
+      // Menu Section
+      function setupMenu() {
         const hamburger = document.getElementById("hamburger");
         const sideMenu = document.getElementById("sideMenu");
         const closeButton = document.getElementById("closeButton");
+
+        sideMenu.classList.add("open"); // Open the menu by default
+        hamburger.classList.add("hidden"); // Hide the hamburger icon
 
         hamburger.addEventListener("click", () => {
           sideMenu.classList.add("open");
@@ -146,9 +175,10 @@
           sideMenu.classList.remove("open");
           hamburger.classList.remove("hidden"); // Show the hamburger icon
         });
-      });
+      }
 
-      document.addEventListener("DOMContentLoaded", () => {
+      // Profile Section
+      function setupProfile() {
         const editProfileButton = document.getElementById(
           "edit-profile-button"
         );
@@ -165,30 +195,48 @@
         const certInput = document.getElementById("cert-input");
         const expInput = document.getElementById("exp-input");
 
-        // Show the form when edit button is clicked
+        // Load from localStorage
+        const loadProfile = () => {
+          const profile = JSON.parse(localStorage.getItem("profile")) || {};
+          fieldDisplay.textContent = `Field of Study: ${
+            profile.fieldOfStudy || "Not provided"
+          }`;
+          certDisplay.textContent = `Certification: ${
+            profile.certification || "Not provided"
+          }`;
+          expDisplay.textContent = `Experience: ${
+            profile.experience || "Not provided"
+          }`;
+          fieldInput.value = profile.fieldOfStudy || "";
+          certInput.value = profile.certification || "";
+          expInput.value = profile.experience || "";
+        };
+
+        // Save profile to localStorage
+        const saveProfile = () => {
+          const profile = {
+            fieldOfStudy: fieldInput.value,
+            certification: certInput.value,
+            experience: expInput.value,
+          };
+          localStorage.setItem("profile", JSON.stringify(profile));
+          loadProfile();
+        };
+
+        //event listeners
         editProfileButton.addEventListener("click", () => {
           profileForm.classList.remove("hidden");
           profileInfo.classList.add("hidden");
         });
-
-        // Save and update profile details
         saveProfileButton.addEventListener("click", () => {
-          fieldDisplay.textContent = `Field of Study: ${fieldInput.value}`;
-          certDisplay.textContent = `Certification: ${certInput.value}`;
-          expDisplay.textContent = `Experience: ${expInput.value}`;
-
+          saveProfile();
           profileForm.classList.add("hidden");
           profileInfo.classList.remove("hidden");
         });
+        loadProfile();
+      }
 
-        // Cancel editing and hide the form
-        cancelEditButton.addEventListener("click", () => {
-          profileForm.classList.add("hidden");
-          profileInfo.classList.remove("hidden");
-        });
-      });
-
-      document.addEventListener("DOMContentLoaded", () => {
+      function setupSkills() {
         const skillsList = document.getElementById("skills-list");
         const noSkillsMessage = document.getElementById("no-skills-message");
         const addSkillButton = document.getElementById("add-skill-button");
@@ -216,6 +264,7 @@
           }
 
           // Remove "No skills added yet" message
+          const noSkillsMessage = document.getElementById("no-skills-message");
           if (noSkillsMessage) {
             noSkillsMessage.remove();
           }
@@ -229,7 +278,6 @@
           skillTag.addEventListener("click", () => {
             skillTag.remove();
             if (!skillsList.querySelector("span")) {
-              // Show "No skills added yet" message if no skills are left
               const noSkills = document.createElement("p");
               noSkills.textContent = "No skills added yet.";
               noSkills.id = "no-skills-message";
@@ -241,6 +289,11 @@
           newSkillInput.value = ""; // Clear the input
           addSkillForm.classList.add("hide"); // Hide the form
           addSkillButton.classList.remove("hide"); // Show "Add Skill" button
+
+          // Save skill to localStorage
+          const skills = JSON.parse(localStorage.getItem("skills")) || [];
+          skills.push(skillValue);
+          localStorage.setItem("skills", JSON.stringify(skills));
         });
 
         // Cancel adding a skill
@@ -249,7 +302,87 @@
           addSkillForm.classList.add("hide"); // Hide the form
           addSkillButton.classList.remove("hide"); // Show "Add Skill" button
         });
-      });
+
+        // Load skills from localStorage
+        const loadSkills = () => {
+          const skills = JSON.parse(localStorage.getItem("skills")) || [];
+          skillsList.innerHTML = "";
+          if (skills.length === 0) {
+            skillsList.innerHTML =
+              "<p id='no-skills-message'>No skills added yet.</p>";
+          } else {
+            skills.forEach((skill) => {
+              const skillTag = document.createElement("span");
+              skillTag.textContent = skill;
+              skillTag.classList.add("skill-tag");
+
+              // Add functionality to remove the skill tag on click
+              skillTag.addEventListener("click", () => {
+                skillTag.remove();
+                const remainingSkills = Array.from(
+                  skillsList.querySelectorAll(".skill-tag")
+                ).map((tag) => tag.textContent);
+
+                localStorage.setItem("skills", JSON.stringify(remainingSkills));
+
+                if (!skillsList.querySelector(".skill-tag")) {
+                  skillsList.innerHTML =
+                    "<p id='no-skills-message'>No skills added yet.</p>";
+                }
+              });
+
+              skillsList.appendChild(skillTag);
+            });
+          }
+        };
+
+        // Load skills on page load
+        loadSkills();
+      }
+
+      // Bio Section
+      function setupBio() {
+        const bioDisplay = document.getElementById("bio-display");
+        const editBioButton = document.getElementById("edit-bio-button");
+        const bioForm = document.getElementById("bio-form");
+        const bioInput = document.getElementById("bio-input");
+        const saveBioButton = document.getElementById("save-bio-button");
+        const cancelBioButton = document.getElementById("cancel-bio-button");
+
+        const loadBio = () => {
+          const bio = localStorage.getItem("bio") || "No bio added yet.";
+          bioDisplay.textContent = bio;
+          bioInput.value = bio !== "No bio added yet." ? bio : "";
+        };
+
+        const saveBio = () => {
+          const bio = bioInput.value.trim();
+          if (bio === "") {
+            alert("Bio cannot be empty.");
+            return;
+          }
+          localStorage.setItem("bio", bio);
+          loadBio();
+        };
+
+        editBioButton.addEventListener("click", () => {
+          bioForm.classList.remove("hide");
+          editBioButton.classList.add("hide");
+        });
+
+        saveBioButton.addEventListener("click", () => {
+          saveBio();
+          bioForm.classList.add("hide");
+          editBioButton.classList.remove("hide");
+        });
+
+        cancelBioButton.addEventListener("click", () => {
+          bioForm.classList.add("hide");
+          editBioButton.classList.remove("hide");
+        });
+
+        loadBio();
+      }
     </script>
   </body>
 </html>
