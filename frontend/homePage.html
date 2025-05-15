@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
     <link rel="stylesheet" href="homePage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -11,13 +11,13 @@
 
 <!------------------------------------- navigation ---------------------------------->
     <nav class="navbar">
-        <div class="logo">Skill Circle</div>
+        <div class="logo">SkillCircle</div>
         <div class="nav-links">
                 <a href="#" class="nav-link">Home</a>
                 <a href="dashboard.html" class="nav-link">Courses</a>
                 <a href="#" class="nav-link">About</a>
                 <a href="#" class="nav-link">Log In</a>
-                <a href="#" class="signup-btn">Sign Up</a>
+                <a href="SignIn.html" class="signup-btn">Sign Up</a>
             </div>
     </nav>
 
@@ -44,17 +44,93 @@
         <div class="about-content">
             <div class="about-text">
                 <h2>About</h2>
-                <p>Skillswap connects people around the world to exchange their skills for free. Whether you want to teach or learn something new, you can find the right match and grow together.</p>
+                <p>SkillCircle connects people around the world to exchange their skills for free. Whether you want to teach or learn something new, you can find the right match and grow together.</p>
                 <div class="search-box">
                     <input type="text" placeholder="Search for skills">
                     <button><i class="fas fa-search"></i></button>
                 </div>
             </div>
             <div class="about-clipart">
-                <img src="Clip Art.png" alt="People exchanging skills" class="clipart-image">
+                <img src="images/Clip Art.png" alt="People exchanging skills" class="clipart-image">
             </div>
         </div>
     </section>
+
+    <!-------------------------------------------- points section ------------------------------->
+
+    <!---------------------------------- Points & Meets Section ---------------------------->
+<section class="features-section">
+    <div class="features-container">
+        <!-- Points Card -->
+        <div class="feature-card points-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>Earn Points. Unlock More Skills</h3>
+            </div>
+            
+            <div class="card-body">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Upload Knowledge</h4>
+                        <p>+20 XP per upload</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Exchange Skills</h4>
+                        <p>+10 XP per session</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <p><i class="fas fa-video"></i> Use Google Meet with points</p>
+                <p><i class="fas fa-handshake"></i> Free skills exchange — Earn more points</p>
+            </div>
+        </div>
+        
+        <!-- gmeets card -->
+        <div class="feature-card meets-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fab fa-google"></i>
+                </div>
+                <h3>Google Meets</h3>
+            </div>
+            
+            <div class="card-body">
+                <p class="meets-description">Start helping others and grow your skills today</p>
+                
+                <div class="action-buttons">
+                    <button class="action-btn primary-btn">
+                        <i class="fas fa-play"></i> Start Session
+                    </button>
+                    <button class="action-btn secondary-btn">
+                        <i class="fas fa-link"></i> Generate Link
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 75%"></div>
+                </div>
+                <p>75% of your weekly goal completed</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!------------------------------------- ending -------------------------------------->
     
         
  <!------------------------------- success stories section ---------------------------->
@@ -101,7 +177,7 @@
                     <h3>Links</h3>
                     <ul>
                         <li><a href="#">About</a></li>
-                        <li><a href="#">Browse</a></li>
+                        <li><a href="dashboard.html">Browse</a></li>
                         <li><a href="#">Profile</a></li>
                     </ul>
                 </div>
