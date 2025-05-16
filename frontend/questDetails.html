@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quest Details</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+      }
+
+      .quest-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .quest-header img {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .quest-header h1 {
+        margin: 0;
+      }
+
+      .quest-details {
+        margin-top: 1rem;
+      }
+
+      .quest-details p {
+        margin: 0.5rem 0;
+      }
+
+      .upload-section {
+        margin-top: 2rem;
+      }
+
+      .upload-section h2 {
+        margin-bottom: 1rem;
+      }
+
+      .upload-section input {
+        margin-bottom: 1rem;
+      }
+
+      .video-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .video-item {
+        flex: 1 1 calc(33.33% - 1rem);
+        max-width: calc(33.33% - 1rem);
+      }
+
+      .video-item video {
+        width: 100%;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Quest Header -->
+      <div class="quest-header">
+        <img id="quest-image" src="" alt="Quest Image" />
+        <div>
+          <h1 id="quest-title">Quest Title</h1>
+          <p id="quest-author"><strong>Author:</strong> Quest Author</p>
+        </div>
+      </div>
+
+      <!-- Quest Details -->
+      <div class="quest-details">
+        <p id="quest-description">
+          <strong>Description:</strong> Quest description goes here.
+        </p>
+      </div>
+
+      <!-- Video Upload Section -->
+      <div class="upload-section">
+        <h2>Upload Videos</h2>
+        <input type="file" id="video-upload" accept="video/*" multiple />
+        <div class="video-list" id="video-list">
+          <!-- Uploaded videos will appear here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Getting current quest from localStorage
+        const currentQuest = JSON.parse(localStorage.getItem("currentQuest"));
+
+        if (currentQuest) {
+          document.getElementById("quest-title").textContent =
+            currentQuest.title;
+          document.getElementById(
+            "quest-author"
+          ).textContent = `Author: ${currentQuest.author}`;
+          document.getElementById(
+            "quest-description"
+          ).textContent = `Description: ${currentQuest.description}`;
+          document.getElementById("quest-image").src = currentQuest.image;
+        } else {
+          document.getElementById(
+            "current-quest"
+          ).innerHTML = `<p>No current quest selected.</p>`;
+        }
+
+        // Getting all quests from localStorage
+        const allQuests = JSON.parse(localStorage.getItem("userQuests")) || [];
+
+        const questsList = document.getElementById("all-quests");
+        questsList.innerHTML = ""; // Clear existing list
+
+        if (allQuests.length === 0) {
+          questsList.innerHTML = `<p>No quests created yet.</p>`;
+        } else {
+          allQuests.forEach((quest) => {
+            const questCard = document.createElement("div");
+            questCard.classList.add("quest-card");
+
+            questCard.innerHTML = `
+        <img src="${quest.image}" alt="${quest.title}" />
+        <div class="quest-card-content">
+          <h3 class="quest-card-title">${quest.title}</h3>
+          <p class="quest-card-author">Author: ${quest.author}</p>
+          <p class="quest-card-description">${quest.description}</p>
+        </div>
+      `;
+
+            questsList.appendChild(questCard);
+          });
+        }
+
+        // Video upload functionality
+        const videoUploadInput = document.getElementById("video-upload");
+        const videoList = document.getElementById("video-list");
+
+        videoUploadInput.addEventListener("change", (event) => {
+          const files = event.target.files; // Get selected files
+          if (!files || files.length === 0) return;
+
+          Array.from(files).forEach((file) => {
+            const videoUrl = URL.createObjectURL(file); // Create a temporary URL for the video
+            const videoItem = document.createElement("div");
+            videoItem.classList.add("video-item");
+
+            videoItem.innerHTML = `
+              <video controls>
+                <source src="${videoUrl}" type="${file.type}">
+                Your browser does not support the video tag.
+              </video>
+            `;
+
+            videoList.appendChild(videoItem);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
