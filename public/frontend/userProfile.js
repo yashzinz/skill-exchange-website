@@ -317,6 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModal = document.getElementById("close-modal");
   const submitQuestBtn = document.getElementById("submit-quest");
   const cancelQuestBtn = document.getElementById("cancel-quest");
+  const videoUploadInput = document.getElementById("video-upload");
 
   const loadQuests = (category) => {
     questsDisplay.innerHTML = ""; // Clear current quests
@@ -362,9 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
   submitQuestBtn.addEventListener("click", () => {
     const title = document.getElementById("quest-title").value.trim();
     const author = document.getElementById("quest-author").value.trim();
-    const description = document
-      .getElementById("quest-description")
-      .value.trim();
+    const description = document.getElementById("quest-description").value.trim();
     const image = document.getElementById("quest-image").value.trim();
 
     // Validate the input fields
@@ -378,7 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title,
       author,
       description,
-      image: image || "images/quest.jpg", // placeholder image if not provided
+      image: image || "images/quest.jpg",
       buttonText: "Start Quest",
     };
 
@@ -430,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Save the selected quest to localStorage
           localStorage.setItem("currentQuest", JSON.stringify(quest));
           // Redirect to questDetails page
-          window.location.href = "questDetails.html";
+          window.location.href = "tutorial.html";
         });
       });
     }
@@ -439,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Event listeners for category buttons
   completedQuestsBtn.addEventListener("click", () => loadQuests("completed"));
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
-  createdQuestsBtn.addEventListener("click", () => displayQuests());
+  createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
 
-  loadQuests("completed");
+  loadQuests("completed");  
 });
