@@ -22,6 +22,20 @@ const UserSchema = new mongoose.Schema({
         type: [String], 
         default: [] 
     },
+    fieldOfStudy: { 
+        type: String 
+    },
+    certification: { 
+        type: String 
+    },
+    experience: { 
+        type: String 
+    },
+    quests: [{
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+        video: { type: String, required: true } // Path to the uploaded video
+    }],
     points: {
         type: Number
     }

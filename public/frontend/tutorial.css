@@ -1,0 +1,262 @@
+:root {
+    --teal: #1ABC9C;
+    --dark-teal: #16A085;
+    --coral: #FF6B6B;
+    --white: #FFFFFF;
+    --off-white: #F5F5F5;
+    --light-gray: #ECF0F1;
+    --medium-gray: #BDC3C7;
+    --dark-gray: #2C3E50;
+}
+
+* {
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--off-white);
+    margin: 0;
+    
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 210px 1fr 250px;
+}
+
+/******************************** left navigation ****************************************/
+.dashboard-nav {
+    background-color: var(--white);
+    padding: 0.5rem 0.5rem;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    display: flex;
+    width: 240px;
+    flex-direction: column;
+}
+
+.nav-header h1 {
+    color: var(--teal);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 auto 0;
+}
+
+.nav-menu li {
+    margin-bottom: 0.8rem;
+}
+
+.nav-menu a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--dark-gray);
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.nav-menu a:hover {
+    background-color: var(--teal);
+    color: var(--white);
+}
+
+.nav-menu .active a {
+    background-color: var(--teal);
+    color: var(--white);
+}  
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    /* margin-top: 2rem;*/
+    border-top: 1px solid var(--light-gray);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.user-profile:hover {
+    background-color: var(--light-gray);
+}
+
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--teal);
+}
+
+
+/********************** profile section **********************/
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--medium-gray);
+    margin-right: 2rem;
+}
+
+.profile-info h1 {
+    font-size: 2rem;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.profile-info p {
+    color: var(--medium-gray);
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+/**************************** main content************************/
+.main-content {
+    flex: 1;
+    padding: 3rem;
+}
+
+        /* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    color: var(--teal);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--medium-gray);
+    font-size: 1rem;
+}
+
+/***************** video section *********************/
+.video-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.main-video {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.video-thumbnail {
+    position: relative;
+    height: 400px;
+    background-color: var(--dark-gray);
+}
+
+.video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 4rem;
+    opacity: 0.9;
+}
+
+.video-info {
+    padding: 2rem;
+}
+
+.video-title {
+    font-size: 1.5rem;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.video-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--medium-gray);
+}
+
+/****************** small tuts *******************88*/
+.small-videos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+   margin-bottom: 3rem;
+}
+
+.small-video-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.small-thumbnail {
+    background: var(--dark-gray);
+    height: 200px;
+    position: relative;
+}
+
+/************************ certifications ********************88*/
+.certifications-section {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.certification-item {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-left: 4px solid var(--teal);
+}
+
+.cert-title {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.cert-meta {
+    color: var(--medium-gray);
+   font-size: 0.9rem;
+}
+
