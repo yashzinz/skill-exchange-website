@@ -440,5 +440,48 @@ document.addEventListener("DOMContentLoaded", () => {
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
   createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
 
+  videoUploadInput.addEventListener("change", async (event) => {
+    const files = event.target.files; // Get selected files
+    if (!files || files.length === 0) return;
+
+    // Fetch the user ID from the session
+    const response = await fetch('/get-user-id', {
+      method: 'GET',
+      credentials: 'include' // Include credentials to access session
+    });
+
+    const userData = await response.json();
+    const userId = userData.userId; // Get user ID from the response
+
+    if (!userId) {
+      console.error('User  not logged in or user ID not found');
+      return;
+    }
+
+    const formData = new FormData();
+    Array.from(files).forEach(file => {
+      formData.append('videos', file); // Append each selected video
+    });
+    formData.append('userId', userId); // Append user ID
+
+    try {
+      const uploadResponse = await fetch('/upload-video', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await uploadResponse.json();
+      if (uploadResponse.ok) {
+        console.log('Videos uploaded successfully:', result.videoPaths);
+        // Optionally, refresh the video list or update the UI
+      } else {
+        console.error('Error uploading videos:', result.message);
+      }
+    } catch (error) {
+      console.error('Error uploading videos:', error);
+    }
+  });
+
+
   loadQuests("completed");  
 });
