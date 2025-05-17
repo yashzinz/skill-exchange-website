@@ -98,7 +98,7 @@ function setupSkills() {
     addSkillButton.classList.add("hide"); // Hide the "Add Skill" button
   });
 
-  // Add the skill when the "Submit" button is pressed
+  // Adding skill when the "Submit" button is pressed
   submitSkillButton.addEventListener("click", () => {
     const skillValue = newSkillInput.value.trim();
     if (skillValue === "") {
@@ -106,7 +106,6 @@ function setupSkills() {
       return;
     }
 
-    // Remove "No skills added yet" message
     const noSkillsMessage = document.getElementById("no-skills-message");
     if (noSkillsMessage) {
       noSkillsMessage.remove();
@@ -117,7 +116,6 @@ function setupSkills() {
     skillTag.textContent = skillValue;
     skillTag.classList.add("skill-tag");
 
-    // Add functionality to remove the skill tag on click
     skillTag.addEventListener("click", () => {
       skillTag.remove();
       if (!skillsList.querySelector("span")) {
@@ -139,7 +137,6 @@ function setupSkills() {
     localStorage.setItem("skills", JSON.stringify(skills));
   });
 
-  // Cancel adding a skill
   cancelSkillButton.addEventListener("click", () => {
     newSkillInput.value = ""; // Clear the input
     addSkillForm.classList.add("hide"); // Hide the form
@@ -326,8 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
       buttonText: "Start Quest",
     };
 
-    console.log("New Quest Created:", newQuest); // Debugging log
-
     // Save the new quest to localStorage
     const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
     quests.push(newQuest);
@@ -385,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Event listeners for category buttons
   completedQuestsBtn.addEventListener("click", () => loadQuests("completed"));
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
-  createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
+  createdQuestsBtn.addEventListener("click", () => displayQuests());
 
   loadQuests("completed");
 });
