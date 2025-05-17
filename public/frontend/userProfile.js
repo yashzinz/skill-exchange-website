@@ -309,6 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModal = document.getElementById("close-modal");
   const submitQuestBtn = document.getElementById("submit-quest");
   const cancelQuestBtn = document.getElementById("cancel-quest");
+  const videoUploadInput = document.getElementById("video-upload");
 
   const loadQuests = (category) => {
     questsDisplay.innerHTML = ""; // Clear current quests
@@ -354,9 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
   submitQuestBtn.addEventListener("click", () => {
     const title = document.getElementById("quest-title").value.trim();
     const author = document.getElementById("quest-author").value.trim();
-    const description = document
-      .getElementById("quest-description")
-      .value.trim();
+    const description = document.getElementById("quest-description").value.trim();
     const image = document.getElementById("quest-image").value.trim();
 
     // Validate the input fields
@@ -370,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title,
       author,
       description,
-      image: image || "images/quest.jpg", // placeholder image if not provided
+      image: image || "images/quest.jpg",
       buttonText: "Start Quest",
     };
 
@@ -424,7 +423,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Save the selected quest to localStorage
           localStorage.setItem("currentQuest", JSON.stringify(quest));
           // Redirect to questDetails page
-          window.location.href = "questDetails.html";
+          window.location.href = "tutorial.html";
         });
       });
     }
@@ -435,5 +434,48 @@ document.addEventListener("DOMContentLoaded", () => {
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
   createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
 
-  loadQuests("completed");
+  videoUploadInput.addEventListener("change", async (event) => {
+    const files = event.target.files; // Get selected files
+    if (!files || files.length === 0) return;
+
+    // Fetch the user ID from the session
+    const response = await fetch('/get-user-id', {
+      method: 'GET',
+      credentials: 'include' // Include credentials to access session
+    });
+
+    const userData = await response.json();
+    const userId = userData.userId; // Get user ID from the response
+
+    if (!userId) {
+      console.error('User  not logged in or user ID not found');
+      return;
+    }
+
+    const formData = new FormData();
+    Array.from(files).forEach(file => {
+      formData.append('videos', file); // Append each selected video
+    });
+    formData.append('userId', userId); // Append user ID
+
+    try {
+      const uploadResponse = await fetch('/upload-video', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await uploadResponse.json();
+      if (uploadResponse.ok) {
+        console.log('Videos uploaded successfully:', result.videoPaths);
+        // Optionally, refresh the video list or update the UI
+      } else {
+        console.error('Error uploading videos:', result.message);
+      }
+    } catch (error) {
+      console.error('Error uploading videos:', error);
+    }
+  });
+
+
+  loadQuests("completed");  
 });

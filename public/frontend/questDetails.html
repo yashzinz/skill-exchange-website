@@ -142,13 +142,13 @@
             questCard.classList.add("quest-card");
 
             questCard.innerHTML = `
-        <img src="${quest.image}" alt="${quest.title}" />
-        <div class="quest-card-content">
-          <h3 class="quest-card-title">${quest.title}</h3>
-          <p class="quest-card-author">Author: ${quest.author}</p>
-          <p class="quest-card-description">${quest.description}</p>
-        </div>
-      `;
+              <img src="${quest.image}" alt="${quest.title}" />
+              <div class="quest-card-content">
+                <h3 class="quest-card-title">${quest.title}</h3>
+                <p class="quest-card-author">Author: ${quest.author}</p>
+                <p class="quest-card-description">${quest.description}</p>
+              </div>
+            `;
 
             questsList.appendChild(questCard);
           });
