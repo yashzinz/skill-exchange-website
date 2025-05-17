@@ -37,7 +37,7 @@ function setupProfile() {
   const certDisplay = document.getElementById("cert-display");
   const expDisplay = document.getElementById("exp-display");
 
-  const nameDisplay = document.getElementById("name-display")
+  const nameDisplay = document.getElementById("name-display");
 
   const fieldInput = document.getElementById("field-input");
   const certInput = document.getElementById("cert-input");
@@ -45,48 +45,57 @@ function setupProfile() {
 
   // Load from localStorage
   const loadProfile = () => {
-    fetch('/api/user')
-      .then(response => {
+    fetch("/api/user")
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(user => {
+      .then((user) => {
         nameDisplay.textContent = `Welcome ${user.name}`;
 
-        fieldDisplay.textContent = `Field of Study: ${user.fieldOfStudy || "Not provided"}`;
-        certDisplay.textContent = `Certification: ${user.certification || "Not provided"}`;
-        expDisplay.textContent = `Experience: ${user.experience || "Not provided"}`;
+        fieldDisplay.textContent = `Field of Study: ${
+          user.fieldOfStudy || "Not provided"
+        }`;
+        certDisplay.textContent = `Certification: ${
+          user.certification || "Not provided"
+        }`;
+        expDisplay.textContent = `Experience: ${
+          user.experience || "Not provided"
+        }`;
 
         fieldInput.value = user.fieldOfStudy || "";
         certInput.value = user.certification || "";
         expInput.value = user.experience || "";
       })
-      .catch(error => console.error('Error loading profile:', error));
+      .catch((error) => console.error("Error loading profile:", error));
   };
-  
+
   // Save profile to MongoDB
   const saveProfile = () => {
-  
-  const profile = {fieldOfStudy: fieldInput.value, certification: certInput.value, experience: expInput.value};
-  fetch('/api/user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(profile),
-  })
-  .then(response => {
-    if (response.ok) {
-        loadProfile(); // Reload profile data after saving
-        profileForm.classList.add("hidden");
-        profileInfo.classList.remove("hidden");
-      } else {
-        console.error('Failed to save profile');
-      }
+    const profile = {
+      fieldOfStudy: fieldInput.value,
+      certification: certInput.value,
+      experience: expInput.value,
+    };
+    fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
     })
-    .catch(error => console.error('Error:', error));
+      .then((response) => {
+        if (response.ok) {
+          loadProfile(); // Reload profile data after saving
+          profileForm.classList.add("hidden");
+          profileInfo.classList.remove("hidden");
+        } else {
+          console.error("Failed to save profile");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   //event listeners
@@ -99,7 +108,7 @@ function setupProfile() {
     profileForm.classList.add("hidden");
     profileInfo.classList.remove("hidden");
   });
-  
+
   loadProfile();
 }
 
@@ -114,11 +123,10 @@ function setupSkills() {
 
   // Load skills from the database
   const loadSkills = async () => {
-
     try {
-      const response = await fetch('/api/skills'); // Adjust the endpoint as necessary
+      const response = await fetch("/api/skills"); // Adjust the endpoint as necessary
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       const data = await response.json();
       const skills = data.skills || []; // Assuming the response contains a 'skills' array
@@ -127,7 +135,7 @@ function setupSkills() {
       if (skills.length === 0) {
         skillsList.innerHTML = "No skills added yet";
       } else {
-        skillsList.innerHTML = ""
+        skillsList.innerHTML = "";
         skills.forEach((skill) => {
           const skillTag = document.createElement("span");
           skillTag.textContent = skill;
@@ -143,7 +151,7 @@ function setupSkills() {
         });
       }
     } catch (error) {
-      console.error('Error loading skills:', error);
+      console.error("Error loading skills:", error);
     }
   };
 
@@ -166,7 +174,6 @@ function setupSkills() {
     skillTag.textContent = skillValue;
     skillTag.classList.add("skill-tag");
 
-    // Add functionality to remove the skill tag on click
     skillTag.addEventListener("click", () => {
       skillTag.remove();
       deleteUserSkill(skillValue);
@@ -179,19 +186,19 @@ function setupSkills() {
 
     // Save skill to the database
     try {
-      const response = await fetch('/add-skills', {
-        method: 'POST',
+      const response = await fetch("/add-skills", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ skills: [skillValue] }), // Send the new skill as an array
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save skill');
+        throw new Error("Failed to save skill");
       }
     } catch (error) {
-      console.error('Error saving skill:', error);
+      console.error("Error saving skill:", error);
     }
 
     newSkillInput.value = ""; // Clear the input
@@ -199,7 +206,6 @@ function setupSkills() {
     addSkillButton.classList.remove("hide"); // Show "Add Skill" button
   });
 
-  // Cancel adding a skill
   cancelSkillButton.addEventListener("click", () => {
     newSkillInput.value = ""; // Clear the input
     addSkillForm.classList.add("hide"); // Hide the form
@@ -209,24 +215,26 @@ function setupSkills() {
   // delete the skills
   async function deleteUserSkill(skill) {
     try {
-      const response = await fetch('/api/skills', {
-        method: 'DELETE', // Use DELETE method
+      const response = await fetch("/api/skills", {
+        method: "DELETE", // Use DELETE method
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ skill }) // Send skill in request body
+        body: JSON.stringify({ skill }), // Send skill in request body
       });
-      
+
       if (response.ok) {
         window.location.reload();
       } else {
         const errorData = await response.json();
-        alert('Error deleting skill: ' + (errorData.message || 'Unknown error'));
+        alert(
+          "Error deleting skill: " + (errorData.message || "Unknown error")
+        );
       }
     } catch (error) {
-      alert('Error deleting skill: ' + error.message);
+      alert("Error deleting skill: " + error.message);
     }
-  };
+  }
   // Load skills on page load
   loadSkills();
 }
@@ -373,8 +381,6 @@ document.addEventListener("DOMContentLoaded", () => {
       buttonText: "Start Quest",
     };
 
-    console.log("New Quest Created:", newQuest); // Debugging log
-
     // Save the new quest to localStorage
     const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
     quests.push(newQuest);
@@ -433,49 +439,6 @@ document.addEventListener("DOMContentLoaded", () => {
   completedQuestsBtn.addEventListener("click", () => loadQuests("completed"));
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
   createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
-
-  videoUploadInput.addEventListener("change", async (event) => {
-    const files = event.target.files; // Get selected files
-    if (!files || files.length === 0) return;
-
-    // Fetch the user ID from the session
-    const response = await fetch('/get-user-id', {
-      method: 'GET',
-      credentials: 'include' // Include credentials to access session
-    });
-
-    const userData = await response.json();
-    const userId = userData.userId; // Get user ID from the response
-
-    if (!userId) {
-      console.error('User  not logged in or user ID not found');
-      return;
-    }
-
-    const formData = new FormData();
-    Array.from(files).forEach(file => {
-      formData.append('videos', file); // Append each selected video
-    });
-    formData.append('userId', userId); // Append user ID
-
-    try {
-      const uploadResponse = await fetch('/upload-video', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await uploadResponse.json();
-      if (uploadResponse.ok) {
-        console.log('Videos uploaded successfully:', result.videoPaths);
-        // Optionally, refresh the video list or update the UI
-      } else {
-        console.error('Error uploading videos:', result.message);
-      }
-    } catch (error) {
-      console.error('Error uploading videos:', error);
-    }
-  });
-
 
   loadQuests("completed");  
 });
