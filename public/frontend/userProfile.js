@@ -26,7 +26,7 @@ function setupMenu() {
   });
 }
 
-// Profile Section
+// set up profile
 function setupProfile() {
   const editProfileButton = document.getElementById("edit-profile-button");
   const saveProfileButton = document.getElementById("save-profile");
@@ -281,8 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         title: "Cooking Quest",
         author: "Matthew Mercer",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         image: "images/cooking.jpg",
         buttonText: "View Quest",
       },
@@ -291,8 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         title: "Dancing Quest",
         author: "Matthew Mercer",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         image: "images/dance.jpg",
         buttonText: "Continue Quest",
       },
@@ -302,24 +300,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const questsDisplay = document.getElementById("quests-display");
   const noQuestsMessage = document.getElementById("no-quests-message");
-  const completedQuestsBtn = document.getElementById(
-    "completed-quests-btn"
-  );
-  const inProgressQuestsBtn = document.getElementById(
-    "in-progress-quests-btn"
-  );
+  const completedQuestsBtn = document.getElementById("completed-quests-btn");
+  const inProgressQuestsBtn = document.getElementById("in-progress-quests-btn");
   const createdQuestsBtn = document.getElementById("created-quests-btn");
+  const modal = document.getElementById("quest-modal");
   const addQuestBtn = document.getElementById("add-quest-btn");
-
-  const userXP = 120; // Example: User's current XP
-  const requiredXPForCreateQuest = 100; // Set this to the required XP amount
-
-  // Conditionally enable or disable "Create Quest" button
-  if (userXP >= requiredXPForCreateQuest) {
-    addQuestBtn.style.display = "block"; // Show the button
-  } else {
-    addQuestBtn.style.display = "none"; // Hide the button
-  }
+  const questModal = document.getElementById("quest-modal");
+  const closeModal = document.getElementById("close-modal");
+  const submitQuestBtn = document.getElementById("submit-quest");
+  const cancelQuestBtn = document.getElementById("cancel-quest");
 
   const loadQuests = (category) => {
     questsDisplay.innerHTML = ""; // Clear current quests
@@ -333,43 +322,118 @@ document.addEventListener("DOMContentLoaded", () => {
         questCard.classList.add("quest-card");
 
         questCard.innerHTML = `
-    <img src="${quest.image}" alt="${quest.title}">
-    <div class="quest-card-content">
-      <h3 class="quest-card-title">${quest.title}</h3>
-      <p class="quest-card-author">${quest.author}</p>
-      <p class="quest-card-description">${quest.description}</p>
-    </div>
-    <button>${quest.buttonText}</button>
-  `;
+          <img src="${quest.image}" alt="${quest.title}">
+          <div class="quest-card-content">
+            <h3 class="quest-card-title">${quest.title}</h3>
+            <p class="quest-card-author">${quest.author}</p>
+            <p class="quest-card-description">${quest.description}</p>
+          </div>
+          <button>${quest.buttonText}</button>
+        `;
 
         questsDisplay.appendChild(questCard);
       });
     }
   };
 
-  // Event listeners for category buttons
-  completedQuestsBtn.addEventListener("click", () =>
-    loadQuests("completed")
-  );
-  inProgressQuestsBtn.addEventListener("click", () =>
-    loadQuests("inProgress")
-  );
-  createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
-
-  // Add Quest Button (example functionality)
+  // Open modal
   addQuestBtn.addEventListener("click", () => {
+    questModal.style.display = "block";
+  });
+
+  // Close modal
+  closeModal.addEventListener("click", () => {
+    questModal.style.display = "none";
+  });
+
+  cancelQuestBtn.addEventListener("click", () => {
+    questModal.style.display = "none";
+  });
+
+  // Submit quest
+  submitQuestBtn.addEventListener("click", () => {
+    const title = document.getElementById("quest-title").value.trim();
+    const author = document.getElementById("quest-author").value.trim();
+    const description = document
+      .getElementById("quest-description")
+      .value.trim();
+    const image = document.getElementById("quest-image").value.trim();
+
+    // Validate the input fields
+    if (!title || !author || !description) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    // Create a new quest object
     const newQuest = {
-      title: "New Quest",
-      author: "New Author",
-      description: "This is a newly added quest.",
-      image: "new-quest.jpg",
+      title,
+      author,
+      description,
+      image: image || "images/quest.jpg", // placeholder image if not provided
       buttonText: "Start Quest",
     };
 
-    quests.created.push(newQuest);
-    loadQuests("created");
+    console.log("New Quest Created:", newQuest); // Debugging log
+
+    // Save the new quest to localStorage
+    const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
+    quests.push(newQuest);
+    localStorage.setItem("userQuests", JSON.stringify(quests));
+
+    // Refresh the quest display
+    displayQuests();
+
+    document.getElementById("quest-title").value = "";
+    document.getElementById("quest-author").value = "";
+    document.getElementById("quest-description").value = "";
+    document.getElementById("quest-image").value = "";
+
+    modal.style.display = "none";
   });
 
-  // Load "Completed Quests" by default
+  // Display quests from localStorage
+  const displayQuests = () => {
+    const questsDisplay = document.getElementById("quests-display");
+    questsDisplay.innerHTML = ""; // Clear existing quests
+
+    const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
+
+    if (quests.length === 0) {
+      questsDisplay.innerHTML = `<p id="no-quests-message">No quests created yet.</p>`;
+    } else {
+      quests.forEach((quest, index) => {
+        const questCard = document.createElement("div");
+        questCard.classList.add("quest-card");
+
+        questCard.innerHTML = `
+        <img src="${quest.image}" alt="${quest.title}" />
+        <div class="quest-card-content">
+          <h3 class="quest-card-title">${quest.title}</h3>
+          <p class="quest-card-author">Author: ${quest.author}</p>
+          <p class="quest-card-description">${quest.description}</p>
+        </div>
+        <button id="start-quest-${index}">${quest.buttonText}</button>
+      `;
+
+        questsDisplay.appendChild(questCard);
+
+        //Adding event listener to the Start Quest button
+        const startButton = document.getElementById(`start-quest-${index}`);
+        startButton.addEventListener("click", () => {
+          // Save the selected quest to localStorage
+          localStorage.setItem("currentQuest", JSON.stringify(quest));
+          // Redirect to questDetails page
+          window.location.href = "questDetails.html";
+        });
+      });
+    }
+  };
+
+  // Event listeners for category buttons
+  completedQuestsBtn.addEventListener("click", () => loadQuests("completed"));
+  inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
+  createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
+
   loadQuests("completed");
 });
