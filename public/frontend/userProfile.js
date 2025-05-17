@@ -363,7 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
   submitQuestBtn.addEventListener("click", () => {
     const title = document.getElementById("quest-title").value.trim();
     const author = document.getElementById("quest-author").value.trim();
-    const description = document.getElementById("quest-description").value.trim();
+    const description = document
+      .getElementById("quest-description")
+      .value.trim();
     const image = document.getElementById("quest-image").value.trim();
 
     // Validate the input fields
@@ -386,8 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
     quests.push(newQuest);
     localStorage.setItem("userQuests", JSON.stringify(quests));
 
-    // Refresh the quest display
-    displayQuests();
+    displayQuests(true);
 
     document.getElementById("quest-title").value = "";
     document.getElementById("quest-author").value = "";
@@ -397,8 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "none";
   });
 
-  // Display quests from localStorage
-  const displayQuests = () => {
+  window.displayQuests = function (showDelete = false) {
     const questsDisplay = document.getElementById("quests-display");
     questsDisplay.innerHTML = ""; // Clear existing quests
 
@@ -419,18 +419,32 @@ document.addEventListener("DOMContentLoaded", () => {
           <p class="quest-card-description">${quest.description}</p>
         </div>
         <button id="start-quest-${index}">${quest.buttonText}</button>
+        ${
+          showDelete
+            ? `<button id="delete-quest-${index}" class="delete-quest-btn" style="margin-left:8px; background:#e74c3c; color:white;">Delete</button>`
+            : ""
+        }
       `;
 
         questsDisplay.appendChild(questCard);
 
-        //Adding event listener to the Start Quest button
+        // Start Quest button event
         const startButton = document.getElementById(`start-quest-${index}`);
         startButton.addEventListener("click", () => {
-          // Save the selected quest to localStorage
           localStorage.setItem("currentQuest", JSON.stringify(quest));
-          // Redirect to questDetails page
           window.location.href = "tutorial.html";
         });
+
+        // Delete Quest button event
+        if (showDelete) {
+          const deleteButton = document.getElementById(`delete-quest-${index}`);
+          deleteButton.addEventListener("click", () => {
+            questIndexToDelete = index;
+            const modal = document.getElementById("delete-confirm-modal");
+            modal.classList.remove("hide");
+            modal.style.display = "block";
+          });
+        }
       });
     }
   };
@@ -438,50 +452,73 @@ document.addEventListener("DOMContentLoaded", () => {
   // Event listeners for category buttons
   completedQuestsBtn.addEventListener("click", () => loadQuests("completed"));
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
-  createdQuestsBtn.addEventListener("click", () => loadQuests("created"));
+  createdQuestsBtn.addEventListener("click", () => displayQuests(true));
 
   videoUploadInput.addEventListener("change", async (event) => {
     const files = event.target.files; // Get selected files
     if (!files || files.length === 0) return;
 
     // Fetch the user ID from the session
-    const response = await fetch('/get-user-id', {
-      method: 'GET',
-      credentials: 'include' // Include credentials to access session
+    const response = await fetch("/get-user-id", {
+      method: "GET",
+      credentials: "include", // Include credentials to access session
     });
 
     const userData = await response.json();
     const userId = userData.userId; // Get user ID from the response
 
     if (!userId) {
-      console.error('User  not logged in or user ID not found');
+      console.error("User  not logged in or user ID not found");
       return;
     }
 
     const formData = new FormData();
-    Array.from(files).forEach(file => {
-      formData.append('videos', file); // Append each selected video
+    Array.from(files).forEach((file) => {
+      formData.append("videos", file); // Append each selected video
     });
-    formData.append('userId', userId); // Append user ID
+    formData.append("userId", userId); // Append user ID
 
     try {
-      const uploadResponse = await fetch('/upload-video', {
-        method: 'POST',
+      const uploadResponse = await fetch("/upload-video", {
+        method: "POST",
         body: formData,
       });
 
       const result = await uploadResponse.json();
       if (uploadResponse.ok) {
-        console.log('Videos uploaded successfully:', result.videoPaths);
+        console.log("Videos uploaded successfully:", result.videoPaths);
         // Optionally, refresh the video list or update the UI
       } else {
-        console.error('Error uploading videos:', result.message);
+        console.error("Error uploading videos:", result.message);
       }
     } catch (error) {
-      console.error('Error uploading videos:', error);
+      console.error("Error uploading videos:", error);
     }
   });
 
+  loadQuests("completed");
+});
 
-  loadQuests("completed");  
+let questIndexToDelete = null;
+
+const deleteConfirmModal = document.getElementById("delete-confirm-modal");
+const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
+
+confirmDeleteBtn.addEventListener("click", () => {
+  if (questIndexToDelete !== null) {
+    const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
+    quests.splice(questIndexToDelete, 1);
+    localStorage.setItem("userQuests", JSON.stringify(quests));
+    displayQuests(true);
+    questIndexToDelete = null;
+    deleteConfirmModal.classList.add("hide");
+    deleteConfirmModal.style.display = "none";
+  }
+});
+
+cancelDeleteBtn.addEventListener("click", () => {
+  questIndexToDelete = null;
+  deleteConfirmModal.classList.add("hide");
+  deleteConfirmModal.style.display = "none";
 });
