@@ -8,7 +8,7 @@
 <body>
     <div class = "claim-container">
 
-        <p id = "userpoints"> </p>
+        <p id = "userpoints"> 0 </p>
         <button id = "addpoints"> Claim points </button>
 
     </div>
@@ -37,11 +37,10 @@
                         return response.json();
                     })
                     .then((user) => {
-                        document.getElementById('userpoints') = user.points;
+                        document.getElementById('userpoints').innerHTML = user.points || 0;
                     })
                     .catch((error) => console.error("Error loading profile:", error));
             };
-            loadPoints();
         };
 
         document.getElementById("addpoints").addEventListener("click", async (e) => {
@@ -54,13 +53,12 @@
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ points: getPoints + 1}),
+                body: JSON.stringify({ points: getPoints + 5}),
             });
 
             const result = await response.json();
                 if (response.ok) {
-                    // const content = getElementById("userpoints");
-                    // content.innerHTML = ({ points });
+                    document.getElementById("userpoints").innerHTML = result.user.points; // Corrected here
                     document.getElementById('responseMessage').innerText = 'Points claimed successfully!';
 
                 } else {
@@ -78,13 +76,12 @@
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ points: getPoints - 1}),
+                body: JSON.stringify({ points: getPoints - 6}),
             });
 
             const result = await response.json();
                 if (response.ok) {
-                    // const content = getElementById("userpoints");
-                    // content.innerHTML = ({ points });
+                    document.getElementById("userpoints").innerHTML = result.user.points; // Update with new points
                     document.getElementById('responseMessage').innerText = 'Points spent successfully!';
 
                 } else {
