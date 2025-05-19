@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class = "claim-container">
+
+        <p id = "userpoints"> </p>
+        <button id = "addpoints"> Claim points </button>
+
+    </div>
+
+    <div class = "buy-container">
+
+        <button id = "subpoints"> Spend points </button>
+
+    </div>
+
+    <p id="responseMessage"></p>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            displayPoints();
+        });
+
+        function displayPoints() {
+            const loadPoints = () => {
+                fetch("/api/user")
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then((user) => {
+                        document.getElementById('userpoints') = user.points;
+                    })
+                    .catch((error) => console.error("Error loading profile:", error));
+            };
+            loadPoints();
+        };
+
+        document.getElementById("addpoints").addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            let getPoints = Number(document.getElementById("userpoints").innerHTML);
+
+            const response = await fetch("/add-points", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ points: getPoints + 1}),
+            });
+
+            const result = await response.json();
+                if (response.ok) {
+                    // const content = getElementById("userpoints");
+                    // content.innerHTML = ({ points });
+                    document.getElementById('responseMessage').innerText = 'Points claimed successfully!';
+
+                } else {
+                    document.getElementById('responseMessage').innerText = 'Error: ' + result.message;
+                }
+        });
+
+        document.getElementById("subpoints").addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            let getPoints = Number(document.getElementById("userpoints").innerHTML);
+
+            const response = await fetch("/sub-points", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ points: getPoints - 1}),
+            });
+
+            const result = await response.json();
+                if (response.ok) {
+                    // const content = getElementById("userpoints");
+                    // content.innerHTML = ({ points });
+                    document.getElementById('responseMessage').innerText = 'Points spent successfully!';
+
+                } else {
+                    document.getElementById('responseMessage').innerText = 'Error: ' + result.message;
+                }
+        });
+    </script>
+</body>
+</html>
