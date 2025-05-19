@@ -59,6 +59,9 @@ app.use("/", loginSignupRouter);
 const updateProfile = require("./routes/profileupdate");
 app.use("/", updateProfile);
 
+const userPoints = require("./routes/userpoints");
+app.use("/", userPoints);
+
 const multer = require("multer");
 
 // Set up multer for file storage

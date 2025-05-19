@@ -47,7 +47,7 @@ function setupProfile() {
   const loadProfile = () => {
     fetch("/api/user")
       .then((response) => {
-        if (!response.ok) {
+        if (!response.ok) { 
           throw new Error("Network response was not ok");
         }
         return response.json();
@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p class="quest-card-author">${quest.author}</p>
             <p class="quest-card-description">${quest.description}</p>
           </div>
-          <button>${quest.buttonText}</button>
+          <button onclick="window.location.href='test.html'">${quest.buttonText}</button>
         `;
 
         questsDisplay.appendChild(questCard);
