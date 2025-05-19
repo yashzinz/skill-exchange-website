@@ -58,3 +58,5 @@ document.addEventListener("DOMContentLoaded", () => {
     questDescriptionElement.innerHTML = "<strong>Description:</strong> No quest selected.";
   }
 });
+
+document.getElementById("start-quest").addEventListener
