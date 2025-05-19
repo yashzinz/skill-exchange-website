@@ -50,10 +50,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Next button functionality (placeholder)
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
         if (selectedSkills.size > 0) {
             alert("Proceeding with skills: " + Array.from(selectedSkills).join(', '));
             // Here you would typically send this data to a server or navigate to the next page
+            // Get the selected skills
+            const skillsArray = Array.from(selectedSkills);
+
+            if (skillsArray.length === 0) {
+                responseMessage.innerText = 'Please select at least one skill.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/add-skills', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ skills: skillsArray }) 
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Skills Selected!")
+                    window.location.href = "userProfile.html"
+                } else {
+                    document.getElementById('responseMessage').innerText = 'Error: ' + result.message;
+                }
+        } catch (error) {
+            document.getElementById('responseMessage').innerText = 'Error submitting skills: ' + error.message;
+        }
         } else {
             alert("Please select at least one skill.");
         }
