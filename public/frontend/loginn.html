@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="SignIn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Sign In</title>
+</head>
+<body>
+
+ <header>
+        <nav>
+            <div class="logo">
+                Skill<span class="logo-highlight">Circle</span>
+            </div>
+            <ul>
+                <li><a href="homePage.html">Home</a></li>
+                <li><a href="dashboard.html">Courses</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="btn btn-login">Log In</button>
+                <a href="SignIn.html"><button class="btn btn-signup">Sign Up</button></a> <!-- Changed from Sign In Now for consistency -->
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-page-container">
+            <div class="form-content-box">
+                <h2>Login</h2>
+                <p class="subtitle">Login to complete your skills.</p>
+                
+                <form id="addUserForm" enctype="multipart/form-data">
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    
+                    <div class="password-input-group">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <i class="fas fa-eye toggle-password-form" data-target="password"></i>
+                    </div>
+                    
+                    <a href="#" id="loginBtn" class="btn-submit-form">Login</a>
+                </form>
+                <p id="errorMessage" class="error-message-text"></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+      document
+        .getElementById("loginBtn")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            alert("Login successful!");
+            window.location.href = "userProfile.html";
+          } else {
+            document.getElementById("errorMessage").textContent = data.error;
+          }
+        });
+    </script>
+
+</body>
+</html>

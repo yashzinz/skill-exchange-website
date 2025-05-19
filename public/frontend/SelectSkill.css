@@ -1,0 +1,231 @@
+:root {
+    --teal: #008081;
+    --dark-teal: #16A085;
+    --coral: #FF6B6B;
+    --purple: #9B59B6;
+    --dark-gray: #2C3E50;
+    --darker-gray: #34495E; 
+    --card-bg: #2C3E50; 
+    --off-white: #F5F5F5;
+    --white: #FFFFFF;
+    --light-teal: #D1F2EB;
+    --input-bg: #3e576c; 
+    --skill-bg: #4a657c; 
+    --skill-active-bg: var(--teal);
+    --accent-yellow: #F1C40F; 
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--darker-gray);
+    color: var(--off-white);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--dark-gray);
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--darker-gray);
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--accent-yellow); 
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--off-white);
+    font-size: 1em;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--teal);
+}
+
+nav ul li a i {
+    font-size: 0.7em;
+    margin-left: 5px;
+}
+
+.profile-icon {
+    background-color: var(--accent-yellow);
+    color: var(--dark-gray);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative; /* for bg image */
+}
+
+.onboarding-container {
+    position: relative; 
+    width: 100%;
+    max-width: 700px; 
+}
+
+/* for bg image 
+.background-art {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(''); 
+    opacity: 0.1; /* 
+    z-index: 0;
+    pointer-events: none; /* 
+} */
+
+
+.onboarding-box {
+    background-color: var(--card-bg);
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    position: relative; /* To be on top of background-art */
+    z-index: 1;
+}
+
+.onboarding-box h2 {
+    color: var(--accent-yellow);
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+
+.onboarding-box p {
+    margin-bottom: 25px;
+    color: var(--off-white);
+    font-size: 1em;
+}
+
+#skillSearch {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 30px;
+    border: 1px solid var(--darker-gray);
+    background-color: var(--accent-yellow);
+    color: var(--dark-gray); /* text color inside search */
+    border-radius: 25px; 
+    font-size: 1em;
+    outline: none;
+}
+
+#skillSearch::placeholder {
+    color: var(--dark-gray); /* Placeholder text color */
+    opacity: 0.8;
+}
+
+.skills-selection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.skill-tag {
+    background-color: var(--skill-bg);
+    color: var(--off-white);
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    font-size: 0.9em;
+}
+
+.skill-tag:hover {
+    background-color: var(--dark-teal);
+    transform: translateY(-2px);
+}
+
+.skill-tag.active {
+    background-color: var(--skill-active-bg);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.next-button {
+    background-color: var(--accent-yellow);
+    color: var(--dark-gray);
+    padding: 12px 35px;
+    border: none;
+    border-radius: 25px; 
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block; 
+    margin-left: auto; 
+    margin-right: 0; 
+}
+
+.next-button:hover {
+    background-color: #d4ac0d; /* darker yellow */
+    transform: translateY(-2px);
+}
+
+/* 
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+    .logo {
+        margin-bottom: 10px;
+    }
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav ul li {
+        margin: 10px 0;
+    }
+    .profile-icon {
+        margin-top: 10px;
+    }
+    .onboarding-box {
+        padding: 20px;
+    }
+    .onboarding-box h2 {
+        font-size: 1.5em;
+    }
+} */

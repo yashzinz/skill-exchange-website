@@ -4,62 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkillCircle</title>
+    <link rel="stylesheet" href="SelectSkill.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Select Your Skills</h1>
-        <form id="skillsForm">
-            <label>
-                <input type="checkbox" name="skills" value="cooking"> Cooking
-            </label>
-            <label>
-                <input type="checkbox" name="skills" value="coding"> Coding
-            </label>
-            <label>
-                <input type="checkbox" name="skills" value="design"> Design
-            </label>
-            <label>
-                <input type="checkbox" name="skills" value="writing"> Writing
-            </label>
-            <label>
-                <input type="checkbox" name="skills" value="music"> Music
-            </label>
-            <br>
-            <a href="#" id="submitSkill">Confirm Skill</a>
-        </form>
-        <div id="responseMessage"></div>
-    </div>
+    <header>
+        <div class="logo">SkillCircle</div>
+        <nav>
+            <ul>
+                <li><a href="homePage.html">Home</a></li>
+                <li><a href="dashboard.html">Courses</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+        <div class="profile-icon">
+            <a href="SignIn.html"><i class="fas fa-user"></i></a>
+        </div>
+    </header>
 
-    <script>
-        document.getElementById('submitSkill').addEventListener('click', async (e) => {
-            e.preventDefault();
+    <main>
+        <div class="onboarding-container">
+            <div class="background-art">
+                <!-- space left to add bg image if want to -->
+            </div>
+            <div class="onboarding-box">
+                <h2>Welcome User, lets set you up!!</h2>
+                <p>Choose your interests of skills</p>
 
-            // Get the selected skills
-            const selectedSkills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(checkbox => checkbox.value);
+                <input type="text" id="skillSearch" placeholder="skill...">
 
-            try {
-                const response = await fetch('/add-skills', {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ skills: selectedSkills })
-                });
+                <div class="skills-selection">
+                    <!-- skill for js-->
+                </div>
 
-                const result = await response.json();
-                if (response.ok) {
-                    document.getElementById('responseMessage').innerText = 'Skills submitted successfully!';
-                    window.location.href = "userProfile.html"
-                } else {
-                    document.getElementById('responseMessage').innerText = 'Error: ' + result.message;
-                }
+                <button class="next-button">Next</button>
+            </div>
+        </div>
+    </main>
 
-            } catch (error) {
-                document.getElementById('responseMessage').innerText = 'Error submitting skills: ' + error.message;
-            }
-        });
-    </script>
-
+    <script src="SelectSkills.js"></script>
 </body>
 </html>
