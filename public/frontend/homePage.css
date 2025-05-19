@@ -59,6 +59,7 @@ body {
     display: flex;
     gap: 1.5rem;
     align-items: center;
+    position: relative;
 }
 
 .nav-link {
@@ -96,6 +97,25 @@ body {
     background-color: var(--dark-teal);
 }
 
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--dark-teal);
+    transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.navbar.scrolled .nav-link:hover::after {
+    width: 100%;
+}
+.navbar.scrolled .nav-link::after {
+    background-color: var(--dark-teal);
+}
+
 /***************** hero section *******************/
 .hero {
     position: relative;
@@ -108,6 +128,7 @@ body {
     color: var(--white);
     text-align: center;
 }
+
 
 .hero-content h1 {
     font-size: 2.5rem;
@@ -148,6 +169,7 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0,0,0,0.15);
 }
+
 
 /* swappers count */
 .swappers-count {
@@ -210,6 +232,23 @@ body {
 
 .about-text {
     flex: 1;
+}
+
+.about-text h2 {
+    font-size: 2.5rem; /* Or larger */
+    color: var(--dark-gray);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block; /* For underline to fit content */
+}
+.about-text h2::after { /* Subtle underline accent */
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px; /* Adjust spacing */
+    width: 60px; /* Or a percentage like 30% */
+    height: 3px;
+    background-color: var(--teal);
 }
 
 .about-clipart {
@@ -472,8 +511,21 @@ body {
 
 .success-stories h2 {
     color: var(--dark-gray);
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    text-align: left;
+}
+
+.success-stories h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px; 
+    width: 60px; 
+    height: 3px;
+    background-color: var(--teal);
 }
 
 .slider-container {
@@ -556,9 +608,9 @@ blockquote {
 
 .footer-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 3rem;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -568,8 +620,8 @@ blockquote {
 }
 
 .footer h3 {
-    color: var(--coral); //////////////////////
-    margin-bottom: 1.5rem;
+    color: var(--white); //////////////////////
+    margin-bottom: 8rem; // not working for some reason
     font-size: 1.2rem;
 }
 
@@ -606,4 +658,6 @@ blockquote {
 .social-icons a:hover {
     color: var(--teal);
 }
+
+
 
