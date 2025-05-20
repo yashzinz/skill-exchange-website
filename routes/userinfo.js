@@ -103,41 +103,4 @@ router.delete('/api/skills', ensureSignedUp, async (req, res) => {
     }
 });
 
-// Set up multer for file storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Specify the uploads directory
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname); // Append timestamp to the filename
-  },
-});
-
-const upload = multer({ storage: storage });
-
-// Create a new route for uploading videos
-router.post("/upload-video",ensureSignedUp,upload.array("videos"),async (req, res) => {
-    const userId = req.body.userId; // Assuming you send userId with the request
-    const videoPaths = req.files.map((file) => file.path); // Get the paths of the uploaded videos
-
-    try {
-      // Find the user and update their videos array
-      await User.findByIdAndUpdate(userId, {
-        $push: { videos: { $each: videoPaths } },
-      });
-      res.status(200).json({ message: "Videos uploaded successfully", videoPaths });
-    } catch (error) {
-      res.status(500).json({ message: "Error uploading videos", error });
-    }
-  }
-);
-
-router.get("/get-user-id", (req, res) => {
-  if (req.session && req.session.userId) {
-    res.json({ userId: req.session.userId });
-  } else {
-    res.json({ userId: null });
-  }
-});
-
 module.exports = router;

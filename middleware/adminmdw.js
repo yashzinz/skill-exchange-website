@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     if (login && password && login === auth.login && password === auth.password) {
         return next();
     }
-
-    res.set('WWW-Authenticate', 'Basic realm="401"');
+    res.set('Cache-Control', 'no-store');
+    res.set('WWW-Authenticate', 'Basic realm="Admin area"');
     res.status(401).send('Authentication required.');
 };
