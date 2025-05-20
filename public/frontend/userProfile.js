@@ -283,6 +283,28 @@ function setupBio() {
   loadBio();
 }
 
+const quests = {
+  completed: [
+    {
+      title: "Cooking Quest",
+      author: "Matthew Mercer",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      image: "images/cooking.jpg",
+      buttonText: "View Quest",
+    },
+  ],
+  inProgress: [
+    {
+      title: "Dancing Quest",
+      author: "Matthew Mercer",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      image: "images/dance.jpg",
+      buttonText: "Continue Quest",
+    },
+  ],
+  created: [],
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const questsDisplay = document.getElementById("quests-display");
   const noQuestsMessage = document.getElementById("no-quests-message");
@@ -297,36 +319,77 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelQuestBtn = document.getElementById("cancel-quest");
   const videoUploadInput = document.getElementById("video-upload");
 
+  // const quests = {
+  //   completed: [
+  //     {
+  //       title: "Cooking Quest",
+  //       author: "Matthew Mercer",
+  //       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  //       image: "images/cooking.jpg",
+  //       buttonText: "View Quest",
+  //     },
+  //   ],
+  //   inProgress: [
+  //     {
+  //       title: "Dancing Quest",
+  //       author: "Matthew Mercer",
+  //       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  //       image: "images/dance.jpg",
+  //       buttonText: "Continue Quest",
+  //     },
+  //   ],
+  //   created: [],
+  // };
+
   // Load quests from the database
-const loadQuests = async () => {
-  try {
-      const response = await fetch("/api/quests");
-      if (!response.ok) {
-          throw new Error("Network response was not ok");
-      }
-      const quests = await response.json();
-      questsDisplay.innerHTML = ""; // Clear current quests
-      if (quests.length === 0) {
-          noQuestsMessage.style.display = "block"; // Show "No quests" message
+const loadQuests = async (category) => {
+
+  questsDisplay.innerHTML = "";
+
+  if (category === "completed") {
+      // Display pre-existing completed quests
+      quests.completed.forEach((quest) => {
+        const questCard = document.createElement("div");
+        questCard.classList.add("quest-card");
+        questCard.innerHTML = `
+          <img src="${quest.image}" alt="${quest.title}">
+          <div class="quest-card-content">
+            <h3 class="quest-card-title">${quest.title}</h3>
+            <p class="quest-card-author">${quest.author}</p>
+            <p class="quest-card-description">${quest.description}</p>
+          </div>
+          <button onclick="window.location.href='test.html'">${quest.buttonText}</button>
+        `;
+        questsDisplay.appendChild(questCard);
+      });
+      if (quests.completed.length === 0) {
+        noQuestsMessage.style.display = "block"; // Show "No quests" message
       } else {
-          noQuestsMessage.style.display = "none"; // Hide "No quests" message
-          quests.forEach((quest) => {
-              const questCard = document.createElement("div");
-              questCard.classList.add("quest-card");
-              questCard.innerHTML = `
-                  <img src="${quest.image}" alt="${quest.title}">
-                  <div class="quest-card-content">
-                      <h3 class="quest-card-title">${quest.title}</h3>
-                      <p class="quest-card-author">${quest.author}</p>
-                      <p class="quest-card-description">${quest.description}</p>
-                  </div>
-                  <button onclick="window.location.href='test.html'">${quest.buttonText}</button>
-              `;
-              questsDisplay.appendChild(questCard);
-          });
+        noQuestsMessage.style.display = "none"; // Hide "No quests" message
       }
-  } catch (error) {
-      console.error("Error loading quests:", error);
+  }
+
+  if (category === "inProgress") {
+      // Display pre-existing completed quests
+      quests.inProgress.forEach((quest) => {
+        const questCard = document.createElement("div");
+        questCard.classList.add("quest-card");
+        questCard.innerHTML = `
+          <img src="${quest.image}" alt="${quest.title}">
+          <div class="quest-card-content">
+            <h3 class="quest-card-title">${quest.title}</h3>
+            <p class="quest-card-author">${quest.author}</p>
+            <p class="quest-card-description">${quest.description}</p>
+          </div>
+          <button onclick="window.location.href='test.html'">${quest.buttonText}</button>
+        `;
+        questsDisplay.appendChild(questCard);
+      });
+      if (quests.inProgress.length === 0) {
+        noQuestsMessage.style.display = "block"; // Show "No quests" message
+      } else {
+        noQuestsMessage.style.display = "none"; // Hide "No quests" message
+      }
   }
 };
 
@@ -376,14 +439,23 @@ const loadQuests = async () => {
 
       if (!response.ok) {
             throw new Error("Failed to save quest");
-        }
+      }
+      // Add the new quest to the created list
+      quests.created.push({
+        title,
+        author,
+        description,
+        image: image || "default_image_path.jpg", // Use a default image if none provided
+        buttonText: "Start Quest",
+      });
 
-        document.getElementById("quest-title").value = "";
-        document.getElementById("quest-author").value = "";
-        document.getElementById("quest-description").value = "";
-        document.getElementById("quest-image").value = "";
 
-        modal.style.display = "none";
+      document.getElementById("quest-title").value = "";
+      document.getElementById("quest-author").value = "";
+      document.getElementById("quest-description").value = "";
+      document.getElementById("quest-image").value = "";
+
+      modal.style.display = "none";
 
     } catch (error) {
         console.error("Error saving quest:", error);
@@ -458,7 +530,8 @@ const loadQuests = async () => {
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
   createdQuestsBtn.addEventListener("click", () => displayQuests(true));
 
-  displayQuests(true);
+   // Initial load of completed quests
+  loadQuests("completed");
 });
 
 let questIdToDelete = null; // Store the ID of the quest to delete
@@ -470,21 +543,27 @@ const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
 confirmDeleteBtn.addEventListener("click", async () => {
     if (questIdToDelete !== null) {
         try {
-            const response = await fetch(`/api/quests/${questIdToDelete}`, {
-                method: "DELETE",
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to delete quest");
+          const questIndex = quests.created.findIndex(quest => quest._id === questIdToDelete);
+            // If the quest is found, remove it from the created array
+            if (questIndex !== -1) {
+                quests.created.splice(questIndex, 1); // Remove the quest from the array
             }
 
-            // Reload quests to reflect the deletion
-            displayQuests(true);
-            questIdToDelete = null; // Reset the quest ID
-            deleteConfirmModal.classList.add("hide");
-            deleteConfirmModal.style.display = "none";
-        } catch (error) {
-            console.error("Error deleting quest:", error);
+          const response = await fetch(`/api/quests/${questIdToDelete}`, {
+              method: "DELETE",
+          });
+
+          if (!response.ok) {
+              throw new Error("Failed to delete quest");
+          }
+
+          // Reload quests to reflect the deletion
+          displayQuests(true);
+          questIdToDelete = null; // Reset the quest ID
+          deleteConfirmModal.classList.add("hide");
+          deleteConfirmModal.style.display = "none";
+      } catch (error) {
+          console.error("Error deleting quest:", error);
         }
     }
 });
