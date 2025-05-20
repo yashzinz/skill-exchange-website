@@ -58,6 +58,9 @@ app.use("/", updateProfile);
 const userPoints = require("./routes/userpoints");
 app.use("/", userPoints);
 
+const questRouter = require("./routes/questsroute");
+app.use("/", questRouter);
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

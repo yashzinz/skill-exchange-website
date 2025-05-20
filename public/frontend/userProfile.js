@@ -284,28 +284,6 @@ function setupBio() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const quests = {
-    completed: [
-      {
-        title: "Cooking Quest",
-        author: "Matthew Mercer",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        image: "images/cooking.jpg",
-        buttonText: "View Quest",
-      },
-    ],
-    inProgress: [
-      {
-        title: "Dancing Quest",
-        author: "Matthew Mercer",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        image: "images/dance.jpg",
-        buttonText: "Continue Quest",
-      },
-    ],
-    created: [],
-  };
-
   const questsDisplay = document.getElementById("quests-display");
   const noQuestsMessage = document.getElementById("no-quests-message");
   const completedQuestsBtn = document.getElementById("completed-quests-btn");
@@ -319,31 +297,38 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelQuestBtn = document.getElementById("cancel-quest");
   const videoUploadInput = document.getElementById("video-upload");
 
-  const loadQuests = (category) => {
-    questsDisplay.innerHTML = ""; // Clear current quests
-
-    if (quests[category].length === 0) {
-      noQuestsMessage.style.display = "block"; // Show "No quests" message
-    } else {
-      noQuestsMessage.style.display = "none"; // Hide "No quests" message
-      quests[category].forEach((quest) => {
-        const questCard = document.createElement("div");
-        questCard.classList.add("quest-card");
-
-        questCard.innerHTML = `
-          <img src="${quest.image}" alt="${quest.title}">
-          <div class="quest-card-content">
-            <h3 class="quest-card-title">${quest.title}</h3>
-            <p class="quest-card-author">${quest.author}</p>
-            <p class="quest-card-description">${quest.description}</p>
-          </div>
-          <button onclick="window.location.href='test.html'">${quest.buttonText}</button>
-        `;
-
-        questsDisplay.appendChild(questCard);
-      });
-    }
-  };
+  // Load quests from the database
+const loadQuests = async () => {
+  try {
+      const response = await fetch("/api/quests");
+      if (!response.ok) {
+          throw new Error("Network response was not ok");
+      }
+      const quests = await response.json();
+      questsDisplay.innerHTML = ""; // Clear current quests
+      if (quests.length === 0) {
+          noQuestsMessage.style.display = "block"; // Show "No quests" message
+      } else {
+          noQuestsMessage.style.display = "none"; // Hide "No quests" message
+          quests.forEach((quest) => {
+              const questCard = document.createElement("div");
+              questCard.classList.add("quest-card");
+              questCard.innerHTML = `
+                  <img src="${quest.image}" alt="${quest.title}">
+                  <div class="quest-card-content">
+                      <h3 class="quest-card-title">${quest.title}</h3>
+                      <p class="quest-card-author">${quest.author}</p>
+                      <p class="quest-card-description">${quest.description}</p>
+                  </div>
+                  <button onclick="window.location.href='test.html'">${quest.buttonText}</button>
+              `;
+              questsDisplay.appendChild(questCard);
+          });
+      }
+  } catch (error) {
+      console.error("Error loading quests:", error);
+  }
+};
 
   // Open modal
   addQuestBtn.addEventListener("click", () => {
@@ -360,165 +345,159 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Submit quest
-  submitQuestBtn.addEventListener("click", () => {
+  submitQuestBtn.addEventListener("click", async () => {
     const title = document.getElementById("quest-title").value.trim();
     const author = document.getElementById("quest-author").value.trim();
-    const description = document
-      .getElementById("quest-description")
-      .value.trim();
+    const description = document.getElementById("quest-description").value.trim();
     const image = document.getElementById("quest-image").value.trim();
+    const videoFiles = videoUploadInput.files; // Get video files
 
     // Validate the input fields
     if (!title || !author || !description) {
-      alert("Please fill out all required fields.");
-      return;
+        alert("Please fill out all required fields.");
+        return;
     }
 
-    // Create a new quest object
-    const newQuest = {
-      title,
-      author,
-      description,
-      image: image || "images/quest.jpg",
-      buttonText: "Start Quest",
-    };
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("author", author);
+    formData.append("description", description);
+    formData.append("image", image);
+    // Append each video file to the FormData
+    Array.from(videoFiles).forEach(file => {
+        formData.append("videos", file);
+    });
 
-    // Save the new quest to localStorage
-    const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
-    quests.push(newQuest);
-    localStorage.setItem("userQuests", JSON.stringify(quests));
+    try{
+      const response = await fetch("/api/quests", {
+            method: "POST",
+            body: formData,
+        });
 
-    displayQuests(true);
+      if (!response.ok) {
+            throw new Error("Failed to save quest");
+        }
 
-    document.getElementById("quest-title").value = "";
-    document.getElementById("quest-author").value = "";
-    document.getElementById("quest-description").value = "";
-    document.getElementById("quest-image").value = "";
+        document.getElementById("quest-title").value = "";
+        document.getElementById("quest-author").value = "";
+        document.getElementById("quest-description").value = "";
+        document.getElementById("quest-image").value = "";
 
-    modal.style.display = "none";
+        modal.style.display = "none";
+
+    } catch (error) {
+        console.error("Error saving quest:", error);
+    }
   });
 
-  window.displayQuests = function (showDelete = false) {
+  window.displayQuests = async function (showDelete = false) {
     const questsDisplay = document.getElementById("quests-display");
     questsDisplay.innerHTML = ""; // Clear existing quests
 
-    const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
-
-    if (quests.length === 0) {
-      questsDisplay.innerHTML = `<p id="no-quests-message">No quests created yet.</p>`;
-    } else {
-      quests.forEach((quest, index) => {
-        const questCard = document.createElement("div");
-        questCard.classList.add("quest-card");
-
-        questCard.innerHTML = `
-        <img src="${quest.image}" alt="${quest.title}" />
-        <div class="quest-card-content">
-          <h3 class="quest-card-title">${quest.title}</h3>
-          <p class="quest-card-author">Author: ${quest.author}</p>
-          <p class="quest-card-description">${quest.description}</p>
-        </div>
-        <button id="start-quest-${index}">${quest.buttonText}</button>
-        ${
-          showDelete
-            ? `<button id="delete-quest-${index}" class="delete-quest-btn" style="margin-left:8px; background:#e74c3c; color:white;">Delete</button>`
-            : ""
+    try {
+        const response = await fetch("/api/quests"); // Fetch quests from the server
+        if (!response.ok) {
+            throw new Error("Failed to load quests");
         }
-      `;
+        const quests = await response.json(); // Parse the JSON response
 
-        questsDisplay.appendChild(questCard);
+        if (quests.length === 0) {
+            questsDisplay.innerHTML = `<p id="no-quests-message">No quests created yet.</p>`;
+        } else {
+            quests.forEach((quest) => {
+                const questCard = document.createElement("div");
+                questCard.classList.add("quest-card");
 
-        // Start Quest button event
-        const startButton = document.getElementById(`start-quest-${index}`);
-        startButton.addEventListener("click", () => {
-          localStorage.setItem("currentQuest", JSON.stringify(quest));
-          window.location.href = "tutorial.html";
-        });
+                questCard.innerHTML = `
+                    <img src="${quest.image}" alt="${quest.title}" />
+                    <div class="quest-card-content">
+                        <h3 class="quest-card-title">${quest.title}</h3>
+                        <p class="quest-card-author">Author: ${quest.author}</p>
+                        <p class="quest-card-description">${quest.description}</p>
+                    </div>
+                `;
+                // Create Start Quest button
+                const startButton = document.createElement("button");
+                startButton.textContent = quest.buttonText || "Start Quest";
+                startButton.id = `start-quest-${quest._id}`;
+                startButton.textContent = "Start Quest";
+                startButton.addEventListener("click", () => {
+                    window.location.href = "tutorial.html?questId=" + quest._id;
+                });
 
-        // Delete Quest button event
-        if (showDelete) {
-          const deleteButton = document.getElementById(`delete-quest-${index}`);
-          deleteButton.addEventListener("click", () => {
-            questIndexToDelete = index;
-            const modal = document.getElementById("delete-confirm-modal");
-            modal.classList.remove("hide");
-            modal.style.display = "block";
-          });
+                questCard.appendChild(startButton);
+
+                // If showDelete is true, create and append Delete button
+                if (showDelete) {
+                    const deleteButton = document.createElement("button");
+                    deleteButton.id = `delete-quest-${quest._id}`;
+                    deleteButton.classList.add("delete-quest-btn");
+                    deleteButton.style.marginLeft = "8px";
+                    deleteButton.style.background = "#e74c3c";
+                    deleteButton.style.color = "white";
+                    deleteButton.textContent = "Delete";
+                    deleteButton.addEventListener("click", () => {
+                        setQuestIdToDelete(quest._id); // Set the quest ID for deletion
+                        const modal = document.getElementById("delete-confirm-modal");
+                        modal.classList.remove("hide");
+                        modal.style.display = "block"; // Show the confirmation modal
+                    });
+                    questCard.appendChild(deleteButton);
+                }
+                questsDisplay.appendChild(questCard);
+            });
         }
-      });
+    } catch (error) {
+        console.error("Error displaying quests:", error);
+        questsDisplay.innerHTML = `<p id="no-quests-message">Error loading quests. Please try again later.</p>`;
     }
-  };
+};
 
   // Event listeners for category buttons
   completedQuestsBtn.addEventListener("click", () => loadQuests("completed"));
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
   createdQuestsBtn.addEventListener("click", () => displayQuests(true));
 
-  videoUploadInput.addEventListener("change", async (event) => {
-    const files = event.target.files; // Get selected files
-    if (!files || files.length === 0) return;
-
-    // Fetch the user ID from the session
-    const response = await fetch("/get-user-id", {
-      method: "GET",
-      credentials: "include", // Include credentials to access session
-    });
-
-    const userData = await response.json();
-    const userId = userData.userId; // Get user ID from the response
-
-    if (!userId) {
-      console.error("User  not logged in or user ID not found");
-      return;
-    }
-
-    const formData = new FormData();
-    Array.from(files).forEach((file) => {
-      formData.append("videos", file); // Append each selected video
-    });
-    formData.append("userId", userId); // Append user ID
-
-    try {
-      const uploadResponse = await fetch("/upload-video", {
-        method: "POST",
-        body: formData,
-      });
-
-      const result = await uploadResponse.json();
-      if (uploadResponse.ok) {
-        console.log("Videos uploaded successfully:", result.videoPaths);
-        // Optionally, refresh the video list or update the UI
-      } else {
-        console.error("Error uploading videos:", result.message);
-      }
-    } catch (error) {
-      console.error("Error uploading videos:", error);
-    }
-  });
-
-  loadQuests("completed");
+  displayQuests(true);
 });
 
-let questIndexToDelete = null;
+let questIdToDelete = null; // Store the ID of the quest to delete
 
 const deleteConfirmModal = document.getElementById("delete-confirm-modal");
 const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
 const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
 
-confirmDeleteBtn.addEventListener("click", () => {
-  if (questIndexToDelete !== null) {
-    const quests = JSON.parse(localStorage.getItem("userQuests")) || [];
-    quests.splice(questIndexToDelete, 1);
-    localStorage.setItem("userQuests", JSON.stringify(quests));
-    displayQuests(true);
-    questIndexToDelete = null;
-    deleteConfirmModal.classList.add("hide");
-    deleteConfirmModal.style.display = "none";
-  }
+confirmDeleteBtn.addEventListener("click", async () => {
+    if (questIdToDelete !== null) {
+        try {
+            const response = await fetch(`/api/quests/${questIdToDelete}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete quest");
+            }
+
+            // Reload quests to reflect the deletion
+            displayQuests(true);
+            questIdToDelete = null; // Reset the quest ID
+            deleteConfirmModal.classList.add("hide");
+            deleteConfirmModal.style.display = "none";
+        } catch (error) {
+            console.error("Error deleting quest:", error);
+        }
+    }
 });
 
 cancelDeleteBtn.addEventListener("click", () => {
-  questIndexToDelete = null;
-  deleteConfirmModal.classList.add("hide");
-  deleteConfirmModal.style.display = "none";
+    questIdToDelete = null; // Reset the quest ID
+    deleteConfirmModal.classList.add("hide");
+    deleteConfirmModal.style.display = "none";
 });
+
+// Function to set the quest ID to delete
+function setQuestIdToDelete(questId) {
+    questIdToDelete = questId;
+    deleteConfirmModal.classList.remove("hide");
+    deleteConfirmModal.style.display = "block";
+}
