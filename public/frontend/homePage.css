@@ -75,7 +75,7 @@ body {
 
 .nav-link:hover, 
 .navbar.scrolled .nav-link:hover {
-    color: var(--dark-teal); /* Darker teal on hover */
+    color: var(--dark-teal); 
 }
 
 .signup-btn {
@@ -88,9 +88,19 @@ body {
     transition: all 0.3s;
 }
 
-.navbar.scrolled .signup-btn {
-    background-color: var(--teal); /* Maintains teal background */
-    color: var(--white); /* Text stays white */
+
+.navbar.scrolled {
+    background-color: var(--teal) !important;
+    color: var(--white) !important;
+}
+
+.navbar.scrolled a{
+    color: var(--white) !important;
+}
+
+.signup-btn {
+    background-color: var(--teal); 
+    color: var(--white) !important;
 }
 
 .signup-btn:hover {
@@ -102,10 +112,10 @@ body {
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: -5px; /* Adjust as needed */
+    bottom: -5px; 
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--dark-teal);
+    background-color: var(--white);
     transition: width 0.3s ease;
 }
 .nav-link:hover::after,
@@ -113,7 +123,7 @@ body {
     width: 100%;
 }
 .navbar.scrolled .nav-link::after {
-    background-color: var(--dark-teal);
+    background-color: var(--white);
 }
 
 /***************** hero section *******************/
