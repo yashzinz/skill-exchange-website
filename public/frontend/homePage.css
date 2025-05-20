@@ -118,6 +118,7 @@ body {
     background-color: var(--white);
     transition: width 0.3s ease;
 }
+
 .nav-link:hover::after,
 .navbar.scrolled .nav-link:hover::after {
     width: 100%;
