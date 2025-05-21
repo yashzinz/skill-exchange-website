@@ -1,0 +1,106 @@
+:root {
+    --teal: #008081;
+    --dark-teal: #16A085;
+    --coral: #FF6B6B;
+    --purple: #9B59B6;
+    --dark-gray: #2C3E50;
+    --darker-gray: #34495E;
+    --off-white: #F5F5F5;
+    --white: #FFFFFF;
+    --light-teal: #D1F2EB;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+        body {
+    background-color: var(--off-white);
+    padding: 2rem;
+}
+
+.admin-container {
+    max-width: 1305px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.admin-header {
+    margin-bottom: 2rem;
+}
+
+.admin-title {
+    color: var(--dark-gray);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.admin-subtitle {
+    color: var(--darker-gray);
+    font-size: 1.2rem;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+.users-table th, .users-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--off-white);
+}
+
+.users-table th {
+    background-color: var(--teal);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.users-table tr:hover {
+    background-color: var(--light-teal);
+}
+
+.quest-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.quest-item {
+    padding: 1rem;
+    border: 1px solid var(--off-white);
+    border-radius: 8px;
+    background: var(--off-white);
+}
+
+.quest-item img {
+    border-radius: 4px;
+    margin-top: 0.5rem;
+}
+
+.quest-item video {
+    border-radius: 4px;
+    margin-top: 0.5rem;
+}
+
+.delete-btn {
+    background: var(--coral);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #ff5252;
+   transform: translateY(-1px);
+}
