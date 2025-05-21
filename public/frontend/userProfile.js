@@ -319,28 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelQuestBtn = document.getElementById("cancel-quest");
   const videoUploadInput = document.getElementById("video-upload");
 
-  // const quests = {
-  //   completed: [
-  //     {
-  //       title: "Cooking Quest",
-  //       author: "Matthew Mercer",
-  //       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  //       image: "images/cooking.jpg",
-  //       buttonText: "View Quest",
-  //     },
-  //   ],
-  //   inProgress: [
-  //     {
-  //       title: "Dancing Quest",
-  //       author: "Matthew Mercer",
-  //       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  //       image: "images/dance.jpg",
-  //       buttonText: "Continue Quest",
-  //     },
-  //   ],
-  //   created: [],
-  // };
-
   // Load quests from the database
 const loadQuests = async (category) => {
 
@@ -531,7 +509,7 @@ const loadQuests = async (category) => {
   createdQuestsBtn.addEventListener("click", () => displayQuests(true));
 
    // Initial load of completed quests
-  loadQuests("completed");
+  loadQuests();
 });
 
 let questIdToDelete = null; // Store the ID of the quest to delete

@@ -54,19 +54,19 @@ router.post('/api/quests', ensureSignedUp, upload.array('videos'), async (req, r
 });
 
 // Get a specific quest by ID
-router.get('/api/quests/:id', ensureSignedUp, async (req, res) => {
+router.get('/api/public-quests/:id', async (req, res) => {
+  try {
     const questId = req.params.id;
-    try {
-        const user = await User.findOne({ "quests._id": questId });
-        if (!user) {
-            return res.status(404).json({ message: 'Quest not found' });
-        }
-        const quest = user.quests.id(questId); // Get the specific quest
-        res.status(200).json(quest);
-    } catch (error) {
-        console.error("Error fetching quest:", error);
-        res.status(500).json({ message: 'Server error' });
+    const quests = await User.find().select('quests').populate('quests');
+    const publicQuests = quests.reduce((acc, user) => acc.concat(user.quests), []);
+    const quest = publicQuests.find((q) => q._id.toString() === questId);
+    if (!quest) {
+      return res.status(404).json({ message: 'Quest not found' });
     }
+    res.json(quest);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 router.delete('/api/quests/:id', ensureSignedUp, async (req, res) => {
@@ -88,5 +88,17 @@ router.delete('/api/quests/:id', ensureSignedUp, async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+// public quests
+router.get('/api/public-quests', async (req, res) => {
+  try {
+    const quests = await User.find().select('quests').populate('quests');
+    const publicQuests = quests.reduce((acc, user) => acc.concat(user.quests), []);
+    res.json(publicQuests);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 module.exports = router;
