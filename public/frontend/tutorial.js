@@ -24,7 +24,7 @@ async function fetchQuestDetails(questId) {
 
     // Update the HTML with quest details
     questDescription.innerHTML = `<strong>Description:</strong> ${quest.description}`;
-    authorName.innerHTML = `<h1>${quest.author}</h1>`;
+    authorName.innerHTML = `<h1>${quest.author.toUpperCase()}</h1>`;
 
     // Display the videos
     videoList.innerHTML = ""; // Clear previous videos
