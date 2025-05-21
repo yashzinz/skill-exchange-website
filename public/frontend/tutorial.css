@@ -168,25 +168,21 @@ body {
     gap: 2rem;
     margin-bottom: 3rem;
 }
-
-.main-video {
-    background: var(--white);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.video-thumbnail {
-    position: relative;
-    height: 400px;
+.video-card {
     background-color: var(--dark-gray);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block; /* Align cards horizontally */
+    text-align: center; /* Center content */
 }
 
-.video-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.video-title {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
+
 
 .play-button {
     position: absolute;
