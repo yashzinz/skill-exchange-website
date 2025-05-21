@@ -191,8 +191,14 @@ nav ul li a.active {
 }
 
 #features .section-title .star-deco.left,
-#features .section-title .star-deco.right {
-    top: 20%;
+#features .section-title  {
+    top: 15%;
+    left: 1px; 
+}
+
+#features .star-deco.right{
+    top: 15%;
+    left: 97%; 
 }
 
 
