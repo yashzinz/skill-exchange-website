@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 
-router.post('/add-points', async (req, res) => {
+router.post('/api/add-points', async (req, res) => {
     const userId = req.session.userId; 
     console.log('User ID from add test session:', userId);
     const { points } = req.body;
@@ -10,7 +10,7 @@ router.post('/add-points', async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(
             userId,
-            { $set: { points: points } },
+            { $inc: { points: points } },
             { new: true }
         );
 

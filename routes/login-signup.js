@@ -30,10 +30,11 @@ router.post('/signup', upload.array('videos', 3), async (req, res) => { // Allow
     try {
         const newUser  = new User({ name, email, password, videos: videoPaths, points: 0 }); // Store array of video paths
         await newUser.save();
+
         // Store user ID and email in session
         req.session.userId = newUser._id;
         req.session.email = newUser.email;
-        req.session.points = newUser.points;
+
         res.status(201).send('User registered successfully!');
 
         } catch (error) {
