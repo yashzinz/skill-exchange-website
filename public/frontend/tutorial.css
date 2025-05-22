@@ -255,3 +255,19 @@ body {
     color: var(--medium-gray);
    font-size: 0.9rem;
 }
+
+.claim-btn {
+    background-color: var(--teal);
+    color: var(--white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    width: auto;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.claim-btn:hover {
+    background-color: var(--dark-teal);
+} 

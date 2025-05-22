@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     console.error("Quest ID not found in the URL.");
   }
+
 });
 
 async function fetchQuestDetails(questId) {
@@ -49,3 +50,26 @@ async function fetchQuestDetails(questId) {
     questDescription.innerHTML = "Error loading quest details.";
   }
 }
+
+document.getElementById("claimpoints").addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            let getPoints = Number(document.getElementById("userpoints").innerHTML);
+
+            const response = await fetch("/add-points", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ points: getPoints + 5}),
+            });
+
+            const result = await response.json();
+                if (response.ok) {
+                    document.getElementById("userpoints").innerHTML = result.user.points; // Corrected here
+                    document.getElementById('responseMessage').innerText = 'Points claimed successfully!';
+
+                } else {
+                    document.getElementById('responseMessage').innerText = 'Error: ' + result.message;
+                }
+        });

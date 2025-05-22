@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const questsDisplay = document.getElementById("quests-display");
     const nameDisplay = document.getElementById("name-display");
+    const pointsDisplay = document.getElementById("userpoints")
 
     const loadProfile = () => {
         fetch("/api/user")
@@ -58,4 +59,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
      loadQuests();
+    displayPoints();
+
 });
+
+function displayPoints() {
+    const loadPoints = () => {
+        fetch("/api/user")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((user) => {
+                document.getElementById('userpoints').innerHTML = user.points || 0;
+            })
+            .catch((error) => console.error("Error loading profile:", error));
+    };
+    loadPoints();
+};
