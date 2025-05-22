@@ -20,8 +20,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--darker-gray);
-    color: var(--off-white); 
+    background-color: var(--off-white);
+    color: var(--darker-gray); 
     line-height: 1.6;
     display: flex; 
     flex-direction: column;
@@ -29,7 +29,7 @@ body {
 }
 
 header {
-    background-color: var(--darker-gray);
+    background-color: var(--dark-teal);
     padding: 0 5%;
     border-bottom: 1px solid var(--form-border-color); 
     width: 100%;
@@ -48,10 +48,6 @@ nav {
 }
 
 
-.logo .logo-highlight { 
-    color: var(--coral); 
-}
-
 nav ul {
      list-style: none; 
      display: flex; 
@@ -64,13 +60,14 @@ nav ul li {
 nav ul li a { 
     text-decoration: none; 
     color: var(--off-white); 
-    font-size: 0.95em; 
+    font-size: 1em; 
+    font-weight: 500;
     transition: color 0.3s ease; 
 }
 
 nav ul li a:hover { 
-    color: var(--coral); 
-} /* Coral for nav link hover */
+    color: var(--white); 
+} 
 
 nav ul li a i { 
     margin-left: 5px; 
@@ -79,7 +76,7 @@ nav ul li a i {
 }
 .auth-buttons .btn {
     padding: 10px 22px; border: none; 
-    border-radius: 25px;
+    border-radius: 3px;
     cursor: pointer; 
     font-weight: bold; 
     font-size: 0.9em; 
@@ -88,19 +85,19 @@ nav ul li a i {
 }
 
 .btn-login {
-    background-color: var(--coral); /* Coral for Log In button */
-    color: var(--white);
+    background-color: var(--off-white); /* Coral for Log In button */
+    color: var(--dark-teal);
 }
 
-.btn-signup { /* Adjusted name to match common practice */
+.btn-signup { 
     background-color: transparent;
-    color: var(--coral);
-    border: 1.5px solid var(--coral);
+    color: var(--off-white);
+    border: 1.5px solid var(--off-white);
 }
 
 .btn-signup:hover { 
-    background-color: var(--coral); 
-    color: var(--white); 
+    background-color: var(--off-white); 
+    color: var(--dark-teal); 
 }
 
 
