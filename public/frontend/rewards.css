@@ -257,6 +257,81 @@ body {
     color: var(--dark-gray);
 }
 
+/* modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px; /* Maximum width */
+    border-radius: 5px; /* Rounded corners */
+}
+
+#reward-confirm-modal p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #222;
+    text-align: center;
+}
+
+#reward-confirm-modal .modal-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0;
+}
+
+#confirm-reward-btn {
+    background: linear-gradient(90deg, #e74c3c 60%, #c0392b 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.12);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    margin-bottom: 0;
+}
+
+#confirm-reward-btn:hover {
+    background: linear-gradient(90deg, #c0392b 60%, #e74c3c 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+
+#cancel-reward-btn {
+    background: #f4f4f4;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#cancel-reward-btn:hover {
+    background: #e0e0e0;
+}
+
+
+
 /******************* footer *******************/
 .footer {
     background-color: var(--dark-gray);
@@ -278,8 +353,8 @@ body {
 }
 
 .footer h3 {
-    color: var(--white); //////////////////////
-    margin-bottom: 8rem; // not working for some reason
+    color: var(--white);
+    margin-bottom: 8rem;
     font-size: 1.2rem;
 }
 

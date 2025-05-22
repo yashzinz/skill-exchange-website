@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 router.post('/api/add-points', async (req, res) => {
     const userId = req.session.userId; 
-    console.log('User ID from add test session:', userId);
+    console.log('User ID added points:', userId);
     const { points } = req.body;
 
     try {
@@ -24,15 +24,15 @@ router.post('/api/add-points', async (req, res) => {
     }
 });
 
-router.post('/sub-points', async (req, res) => {
+router.post('/api/sub-points', async (req, res) => {
     const userId = req.session.userId; 
-    console.log('User ID from sub test session:', userId);
-    let { points } = req.body;
+    console.log('User ID subbed points:', userId);
+    const { points } = req.body;
 
     try {
         const user = await User.findByIdAndUpdate(
             userId,
-            { $set: { points: points} },
+            { $inc: { points: -points} },
             { new: true }
         );
 
