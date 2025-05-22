@@ -11,7 +11,7 @@ const adminauth = require("./middleware/adminmdw");
 
 // MongoDB connection
 mongoose
-  .connect("mongodb://localhost:27017/SkillCircleSignUp", {
+  .connect("mongodb+srv://skillc:P1BhjZet7jjtiAm5@cluster0.frn3up5.mongodb.net/SkillCircleSignUp", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

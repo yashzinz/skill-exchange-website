@@ -31,20 +31,22 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Create a new quest
-router.post('/api/quests', ensureSignedUp, upload.array('videos'), async (req, res) => {
+router.post('/api/quests', ensureSignedUp, upload.fields([{ name: 'image' }, { name: 'videos' }]), async (req, res) => {
     const { title, author, description, image } = req.body;
     const userId = req.session.userId; // Assuming user ID is stored in session
     try {
         const user = await User.findById(userId);
         if (!user) return res.status(404).send('User  not found');
+
         // Create a new quest object
         const newQuest = {
             title,
             author,
             description,
-            image,
-            videos: req.files.map(file => file.path) // Store the paths of uploaded videos
+            image: req.files['image'][0].path, // Store the path of the uploaded image,
+            videos: req.files['videos'] ? req.files['videos'].map(file => file.path) : [] // Store the paths of uploaded videos
         };
+        
         user.quests.push(newQuest);
         await user.save();
         res.status(201).json(newQuest);

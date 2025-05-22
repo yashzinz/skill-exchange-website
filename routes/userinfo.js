@@ -7,13 +7,14 @@ const {ensureSignedUp} = require('../middleware/auth')
 router.get('/api/user', ensureSignedUp, async (req, res) =>{
     const userId = req.session.userId
     try{
-        const user = await User.findById(userId).select('name fieldOfStudy certification experience'); // Fetch necessary fields
+        const user = await User.findById(userId).select('name fieldOfStudy certification experience points'); // Fetch necessary fields
         if (user) {
             res.status(200).json({ 
                 name: user.name, 
                 fieldOfStudy: user.fieldOfStudy, 
                 certification: user.certification, 
-                experience: user.experience 
+                experience: user.experience ,
+                points: user.points
         });
         } else {
             res.status(404).json({ message: 'User  not found' });

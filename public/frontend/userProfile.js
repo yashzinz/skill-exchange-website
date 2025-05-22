@@ -390,7 +390,7 @@ const loadQuests = async (category) => {
     const title = document.getElementById("quest-title").value.trim();
     const author = document.getElementById("quest-author").value.trim();
     const description = document.getElementById("quest-description").value.trim();
-    const image = document.getElementById("quest-image").value.trim();
+    const imageFile = document.getElementById("quest-image").files[0]; // Get the image file
     const videoFiles = videoUploadInput.files; // Get video files
 
     // Validate the input fields
@@ -403,7 +403,7 @@ const loadQuests = async (category) => {
     formData.append("title", title);
     formData.append("author", author);
     formData.append("description", description);
-    formData.append("image", image);
+    formData.append("image", imageFile);
     // Append each video file to the FormData
     Array.from(videoFiles).forEach(file => {
         formData.append("videos", file);
@@ -423,7 +423,7 @@ const loadQuests = async (category) => {
         title,
         author,
         description,
-        image: image || "default_image_path.jpg", // Use a default image if none provided
+        image: imageFile.name || "default_image_path.jpg", // Use a default image if none provided
         buttonText: "Start Quest",
       });
 
@@ -459,7 +459,7 @@ const loadQuests = async (category) => {
                 questCard.classList.add("quest-card");
 
                 questCard.innerHTML = `
-                    <img src="${quest.image}" alt="${quest.title}" />
+                    <img src="/${quest.image}" alt="${quest.title}" />
                     <div class="quest-card-content">
                         <h3 class="quest-card-title">${quest.title}</h3>
                         <p class="quest-card-author">Author: ${quest.author}</p>
