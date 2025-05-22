@@ -1,22 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
     const questsDisplay = document.getElementById("quests-display");
     const nameDisplay = document.getElementById("name-display");
-    const pointsDisplay = document.getElementById("userpoints")
+    const pointsDisplay = document.getElementById("userpoints");
 
-    const loadProfile = () => {
+    const storedPoints = localStorage.getItem('userPoints'); // retrieve points from localstorage
+    if (storedPoints) {
+        pointsDisplay.innerHTML = storedPoints; // Update the displayed points
+    } else{
         fetch("/api/user")
         .then((response) => {
             if (!response.ok) { 
-            throw new Error("Network response was not ok");
+                throw new Error("Network response was not ok");
             }
             return response.json();
         })
         .then((user) => {
             nameDisplay.textContent = `WELCOME ${user.name.toUpperCase()}`;
+            pointsDisplay.innerHTML = user.points;
         })
         .catch((error) => console.error("Error loading profile:", error));
-    };
-    loadProfile();
+    }
     
     const loadQuests = async () => {
         try {
@@ -58,24 +61,5 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error loading quests:', error);
         }
     };
-     loadQuests();
-    displayPoints();
-
+    loadQuests();
 });
-
-function displayPoints() {
-    const loadPoints = () => {
-        fetch("/api/user")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((user) => {
-                document.getElementById('userpoints').innerHTML = user.points || 0;
-            })
-            .catch((error) => console.error("Error loading profile:", error));
-    };
-    loadPoints();
-};

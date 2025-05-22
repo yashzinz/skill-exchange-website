@@ -1,15 +1,18 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Get the quest ID from the URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const questId = urlParams.get('questId'); // Assuming the URL is like: tutorial.html?questId=123
+  document.addEventListener("DOMContentLoaded", () => {
+    // Get the quest ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const questId = urlParams.get('questId'); // Assuming the URL is like: tutorial.html?questId=123
 
-  if (questId) {
-    fetchQuestDetails(questId); // Fetch quest details with the quest ID
-  } else {
-    console.error("Quest ID not found in the URL.");
-  }
+    if (questId) {
+      fetchQuestDetails(questId); // Fetch quest details with the quest ID
+    } else {
+      console.error("Quest ID not found in the URL.");
+    }
 
-});
+    const addPointsButton = document.getElementById("addpoints");
+    addPointsButton.addEventListener("click", claimPoints);
+
+  });
 
 async function fetchQuestDetails(questId) {
   const questDescription = document.getElementById("quest-description"); // Element to display the quest description
@@ -51,25 +54,31 @@ async function fetchQuestDetails(questId) {
   }
 }
 
-document.getElementById("claimpoints").addEventListener("click", async (e) => {
-            e.preventDefault();
+async function claimPoints() {
+    const pointsToAdd = 10; // Define how many points to add
+    const responseMessage = document.getElementById("responseMessage");
 
-            let getPoints = Number(document.getElementById("userpoints").innerHTML);
-
-            const response = await fetch("/add-points", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ points: getPoints + 5}),
-            });
-
-            const result = await response.json();
-                if (response.ok) {
-                    document.getElementById("userpoints").innerHTML = result.user.points; // Corrected here
-                    document.getElementById('responseMessage').innerText = 'Points claimed successfully!';
-
-                } else {
-                    document.getElementById('responseMessage').innerText = 'Error: ' + result.message;
-                }
+    try {
+        const response = await fetch('/api/add-points', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ points: pointsToAdd })
         });
+
+        if (!response.ok) {
+            throw new Error('Failed to claim points');
+        }
+
+        const data = await response.json();
+        responseMessage.textContent = "Points claimed successfully!";
+        
+        // Store the updated points in local storage
+        localStorage.setItem('userPoints', data.user.points);
+    } catch (error) {
+        console.error("Error claiming points:", error);
+        responseMessage.textContent = "Error claiming points.";
+    }
+}
+
