@@ -87,23 +87,6 @@ body {
     color: var(--light-teal);
 }
 
-.rp-btn {
-    padding: 8px 18px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.rp-btn-signup {
-    color: var(--white);
-}
-
-.rp-btn-signup:hover {
-    color: var(-dark-teal) !important;
-    background-color: var(--white);
-    border: 1px solid var(--white);
-}
 
 .rp-social-contact {
     display: flex;
@@ -272,5 +255,65 @@ body {
 }
 .rp-reward-card[style*="background-color: #F5A623;"] {
     color: var(--dark-gray);
+}
+
+/******************* footer *******************/
+.footer {
+    background-color: var(--dark-gray);
+    color: var(--white);
+    padding: 3rem 5rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.footer-brand .logo {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.footer h3 {
+    color: var(--white); //////////////////////
+    margin-bottom: 8rem; // not working for some reason
+    font-size: 1.2rem;
+}
+
+.footer-links ul {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--teal);
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.social-icons a {
+    color: var(--white);
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: var(--teal);
 }
 
