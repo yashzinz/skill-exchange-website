@@ -129,6 +129,10 @@ body {
     background-color: var(--white);
 }
 
+.navbar.scrolled .logo{
+    color: var(--white);
+}
+
 /***************** hero section *******************/
 .hero {
     position: relative;
