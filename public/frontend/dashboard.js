@@ -3,23 +3,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const nameDisplay = document.getElementById("name-display");
     const pointsDisplay = document.getElementById("userpoints");
 
-    const storedPoints = localStorage.getItem('userPoints'); // retrieve points from localstorage
-    if (storedPoints) {
-        pointsDisplay.innerHTML = storedPoints; // Update the displayed points
-    } else{
-        fetch("/api/user")
-        .then((response) => {
+    const loadProfile = async () => {
+        try {
+            const response = await fetch("/api/user");
+            
             if (!response.ok) { 
                 throw new Error("Network response was not ok");
             }
-            return response.json();
-        })
-        .then((user) => {
+            const user = await response.json();
             nameDisplay.textContent = `WELCOME ${user.name.toUpperCase()}`;
-            pointsDisplay.innerHTML = user.points;
-        })
-        .catch((error) => console.error("Error loading profile:", error));
-    }
+            pointsDisplay.innerHTML = `<div class="value coral-text" id="userpoints">${user.points}</div>`; // Display user's points
+            
+        } catch (error) {
+            console.error("Error loading profile:", error);
+            // Optionally, display an error message to the user
+            pointsDisplay.innerHTML = "Error loading points.";
+        }
+    };
+    loadProfile();
     
     const loadQuests = async () => {
         try {

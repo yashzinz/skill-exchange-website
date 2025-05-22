@@ -5,12 +5,13 @@
 
     if (questId) {
       fetchQuestDetails(questId); // Fetch quest details with the quest ID
+
+      const addPointsButton = document.getElementById("addpoints");
+      addPointsButton.addEventListener("click", claimPoints);
+
     } else {
       console.error("Quest ID not found in the URL.");
     }
-
-    const addPointsButton = document.getElementById("addpoints");
-    addPointsButton.addEventListener("click", claimPoints);
 
   });
 
@@ -57,6 +58,7 @@ async function fetchQuestDetails(questId) {
 async function claimPoints() {
     const pointsToAdd = 10; // Define how many points to add
     const responseMessage = document.getElementById("responseMessage");
+    const claimButton = document.getElementById("addpoints");
 
     try {
         const response = await fetch('/api/add-points', {
@@ -70,12 +72,14 @@ async function claimPoints() {
         if (!response.ok) {
             throw new Error('Failed to claim points');
         }
-
-        const data = await response.json();
-        responseMessage.textContent = "Points claimed successfully!";
         
-        // Store the updated points in local storage
-        localStorage.setItem('userPoints', data.user.points);
+        responseMessage.textContent = "Points claimed successfully!";
+
+        // Disable the claim button after successful claim
+        if (claimButton) {
+            claimButton.disabled = true;
+            claimButton.hidden = true;
+        }
     } catch (error) {
         console.error("Error claiming points:", error);
         responseMessage.textContent = "Error claiming points.";
