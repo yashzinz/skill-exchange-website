@@ -60,7 +60,7 @@
                 <h2>Rewards: Gift Card Goodness <span role="img" aria-label="gift">🎁</span></h2>
                 <div class="rp-rewards-grid">
                   
-                    <a href="" class="skill-card-link"><div class="rp-reward-card" style="background-color: #6BB7D9;">
+                    <a href="" class="skill-card-link skill-card" id="minuspoints"><div class="rp-reward-card" style="background-color: #6BB7D9;">
                         <span class="rp-reward-xp">5OXP</span>
                         <img src="images/skillexchangee.png" alt="Swipe & Learn" class="rp-reward-img">
                         <h3>Swipe & Learn</h3>
@@ -69,7 +69,7 @@
                     </a>
 
                    
-                    <a href="" class="skill-card-link"><div class="rp-reward-card" style="background-color: #A3CB38;">
+                    <a href="" class="skill-card-link skill-card" id="minuspoints"><div class="rp-reward-card" style="background-color: #A3CB38;">
                         <span class="rp-reward-xp">5OXP</span>
                          <img src="images/cash-removebg-preview.png" alt="SkillCash" class="rp-reward-img">
                         <h3>SkillCash</h3>
@@ -77,7 +77,7 @@
                     </div>
                     </a>
 
-                    <a href="" class="skill-card-link"><div class="rp-reward-card" style="background-color: #F5A623;">
+                    <a href="" class="skill-card-link skill-card" id="minuspoints"><div class="rp-reward-card" style="background-color: #F5A623;">
                          <span class="rp-reward-xp">5OXP</span>
                          <img src="images/giftcard.png" alt="Circle Perks" class="rp-reward-img">
                         <h3>Circle Perks</h3>
@@ -85,7 +85,7 @@
                     </div>
                     </a>
 
-                    <a href="" class="skill-card-link"><div class="rp-reward-card" style="background-color: #34495E;"> 
+                    <a href="" class="skill-card-link skill-card" id="minuspoints"><div class="rp-reward-card" style="background-color: #34495E;"> 
                         <span class="rp-reward-xp">5OXP</span>
                         <img src="images/Amazon.jpg" alt="Amazon Gift Card" class="rp-reward-img">
                         <h3>Amazon Gift Card</h3>
@@ -93,7 +93,7 @@
                     </div>
                     </a>
 
-                    <a href="" class="skill-card-link"><div class="rp-reward-card" style="background-color: #E50914;"> 
+                    <a href="" class="skill-card-link skill-card" id="minuspoints"><div class="rp-reward-card" style="background-color: #E50914;"> 
                          <span class="rp-reward-xp">5OXP</span>
                          <img src="images/netflix.jpg" alt="Netflix Gift Card" class="rp-reward-img">
                         <h3>Netflix Gift Card</h3>
@@ -101,7 +101,7 @@
                     </div>
                     </a>
 
-                    <a href="" class="skill-card-link"><div class="rp-reward-card" style="background-color: #1DB954;"> 
+                    <a href="" class="skill-card-link skill-card" id="minuspoints"><div class="rp-reward-card" style="background-color: #1DB954;"> 
                          <span class="rp-reward-xp">5OXP</span>
                          <img src="images/spotify.jpg" alt="Spotify Gift Card" class="rp-reward-img">
                         <h3>Spotify Gift Card</h3>
@@ -109,7 +109,7 @@
                     </div>
                     </a>
 
-                    <a href="" class="skill-card-link"><div class="rp-reward-card" style="background-color: #0056D2;"> 
+                    <a href="" class="skill-card-link skill-card" id="minuspoints"><div class="rp-reward-card" style="background-color: #0056D2;"> 
                         <span class="rp-reward-xp">5OXP</span>
                         <img src="images/coursera.jpg" alt="Coursera Credit" class="rp-reward-img">
                         <h3>Coursera Credit</h3>
@@ -119,6 +119,17 @@
                 </div>
             </section>
         </div>
+
+        <div id="reward-confirm-modal" class="modal hide">
+            <div class="modal-content">
+                <p>Are you sure you want to claim this reward?</p>
+                <div class="modal-actions">
+                    <button id="confirm-reward-btn" style="background: #e74c3c; color: white">Claim</button>
+                    <button id="cancel-reward-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
     </main>
 
     <!------------------------------------ footer --------------------------------->
@@ -154,6 +165,7 @@
             </div>
         </footer>
 
+ <script src="rewards.js"></script>
 
 </body>
 </html>

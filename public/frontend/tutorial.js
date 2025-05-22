@@ -73,13 +73,14 @@ async function claimPoints() {
             throw new Error('Failed to claim points');
         }
         
-        responseMessage.textContent = "Points claimed successfully!";
+        alertalert("Points Claimed!"); // Notify the user
 
         // Disable the claim button after successful claim
         if (claimButton) {
             claimButton.disabled = true;
             claimButton.hidden = true;
         }
+        
     } catch (error) {
         console.error("Error claiming points:", error);
         responseMessage.textContent = "Error claiming points.";
