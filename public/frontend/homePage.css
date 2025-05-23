@@ -732,9 +732,9 @@ blockquote {
 }
 
 .footer h3 {
-    color: var(--white);
-    margin-bottom: 1.3rem;
-    font-size: 1.2rem;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .footer-links ul {
