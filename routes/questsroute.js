@@ -71,6 +71,7 @@ router.get('/api/public-quests/:id', async (req, res) => {
   }
 });
 
+// router to delete quests
 router.delete('/api/quests/:id', ensureSignedUp, async (req, res) => {
     const questId = req.params.id;
     try {

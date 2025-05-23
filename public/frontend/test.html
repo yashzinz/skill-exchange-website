@@ -30,10 +30,10 @@
         <div class="profile-header">
             <div class="avatar"></div>
             <div class="profile-info">
-                <h1 id="author-name"></h1>
-                <p id="social-display"></p>
+                <h1 id="author-name">MATTHEW MERCER</h1>
+                <p id="social-display">ig: matthew_mercer</p>
                 <div id="quest-description">
-                    <strong>Description:</strong> Quest description goes here.
+                    <strong>Description:</strong> Teaching you the rules of DaggerHeart!
                 </div>
             </div>
         </div>
@@ -43,6 +43,10 @@
             <div class="main-video">
                 <div class="video-list" id="video-list">
                     <!-- Uploaded videos will appear here -->
+                     <div class="video-card">
+                        <iframe width="420" height="340"
+                        src="https://www.youtube.com/embed/cC0lKn9gT1w "></iframe>
+                     </div>
                 </div> 
             </div>
         </div>
@@ -51,6 +55,42 @@
         <p id="responseMessage"></p>
         
     </main>
-    <script src="tutorial.js"></script>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () =>{
+            const addPointsButton = document.getElementById("addpoints");
+            addPointsButton.addEventListener("click", claimPoints);
+        })
+        async function claimPoints() {
+            const pointsToAdd = 10; // Define how many points to add
+            const claimButton = document.getElementById("addpoints");
+
+            try {
+                const response = await fetch('/api/add-points', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ points: pointsToAdd })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to claim points');
+                }
+                
+                alert("Points Claimed!"); // Notify the user
+
+                // Disable the claim button after successful claim
+                if (claimButton) {
+                    claimButton.disabled = true;
+                    claimButton.hidden = true;
+                }
+                
+            } catch (error) {
+                console.error("Error claiming points:", error);
+                responseMessage.textContent = "Error claiming points.";
+            }
+        }
+    </script>
 </body>
 </html>

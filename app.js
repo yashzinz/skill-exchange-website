@@ -39,6 +39,10 @@ app.get("/admin", adminauth, (req, res) => {
   res.sendFile(path.join(__dirname, "public/admin/admin.html"));
 });
 
+app.get("/", (req, res) => {
+  res.redirect("/frontend/loginn.html"); // Assuming your login page is served at /login
+});
+
 // Routes
 const users = require("./routes/users");
 app.use("/", users);

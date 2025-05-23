@@ -5,8 +5,15 @@
 
     if (questId) {
       fetchQuestDetails(questId); // Fetch quest details with the quest ID
+      displayUser();
 
       const addPointsButton = document.getElementById("addpoints");
+
+      // Check localStorage to see if the button should be hidden
+      if (localStorage.getItem(`quest_${questId}_claimed`)) {
+          addPointsButton.hidden = true; // Hide the button if points have already been claimed
+      }
+      
       addPointsButton.addEventListener("click", claimPoints);
 
     } else {
@@ -39,7 +46,7 @@ async function fetchQuestDetails(questId) {
         const videoCard = document.createElement('div');
         videoCard.className = 'video-card'; // Add a class for styling
         videoCard.innerHTML = `
-          <video width="320" height="240" controls>
+          <video width="420" height="340" controls>
             <source src="/${video}" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -73,17 +80,41 @@ async function claimPoints() {
             throw new Error('Failed to claim points');
         }
         
-        alertalert("Points Claimed!"); // Notify the user
+        alert("Points Claimed!"); // Notify the user
 
         // Disable the claim button after successful claim
         if (claimButton) {
             claimButton.disabled = true;
             claimButton.hidden = true;
         }
+
+        // Store in localStorage that points have been claimed for this quest
+        const questId = new URLSearchParams(window.location.search).get('questId');
+        localStorage.setItem(`quest_${questId}_claimed`, true);
         
     } catch (error) {
         console.error("Error claiming points:", error);
         responseMessage.textContent = "Error claiming points.";
     }
 }
+
+async function displayUser() {
+  const socialDisplay = document.getElementById("social-display");
+
+  try{
+
+    const response = await fetch('/api/user');
+
+    if(!response.ok){
+      throw new Error("Network response was not ok");
+    }
+
+    const userDisp = await response.json();
+    socialDisplay.innerHTML = `${userDisp.certification}`;
+
+  } catch (error) {
+        console.error("Error claiming points:", error);
+        responseMessage.textContent = "Error claiming points.";
+    }
+};
 
