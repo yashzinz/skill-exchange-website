@@ -58,7 +58,7 @@ function setupProfile() {
         fieldDisplay.textContent = `Field of Study: ${
           user.fieldOfStudy || "Not provided"
         }`;
-        certDisplay.textContent = `Certification: ${
+        certDisplay.textContent = `Social Media: ${
           user.certification || "Not provided"
         }`;
         expDisplay.textContent = `Experience: ${
@@ -293,15 +293,7 @@ const quests = {
       buttonText: "View Quest",
     },
   ],
-  inProgress: [
-    {
-      title: "Dancing Quest",
-      author: "Matthew Mercer",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      image: "images/dance.jpg",
-      buttonText: "Continue Quest",
-    },
-  ],
+  inProgress: [],
   created: [],
 };
 
@@ -509,7 +501,7 @@ const loadQuests = async (category) => {
   createdQuestsBtn.addEventListener("click", () => displayQuests(true));
 
    // Initial load of completed quests
-  loadQuests();
+  loadQuests("completed");
 });
 
 let questIdToDelete = null; // Store the ID of the quest to delete
