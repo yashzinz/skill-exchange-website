@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const result = await response.json();
+                
                 if (response.ok) {
                     alert("Skills Selected!")
                     window.location.href = "userProfile.html"

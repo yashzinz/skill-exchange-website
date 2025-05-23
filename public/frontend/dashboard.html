@@ -17,8 +17,7 @@
                 <h1>Skill Circle</h1>
             </div> 
             <ul class="nav-menu">
-                <li><a href="homePage.html"><i class="fas fa-home"></i> Home</a></li>
-                <li class="active"><a href="#"><i class="fas fa-compass"></i> Browse</a></li>
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="homepage.html#about-section-anchor"><i class="fas fa-info-circle"></i> About Us</a></li>
                <li><a href="rewards.html"><i class="fas fa-trophy"></i> Rewards</a></li> 
             </ul>
@@ -35,17 +34,8 @@
                 <h2 id="name-display"></h2>
                 <p>Type a skill... and discover who's ready to teach or learn with you.</p>
                 <div class="search-bar">
-                    <input type="text" placeholder="Search skills...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-                <div class="skill-tags">
-                    <span class="tag active">All</span>
-                    <span class="tag">Dancing</span>
-                    <span class="tag">Painting</span>
-                    <span class="tag">Coding</span>
-                    <span class="tag">Music</span>
-                    <span class="tag">Marketing</span>
-                    <span class="tag">Poetry</span>
+                    <input type="text" id="skill-search" placeholder="Search skills...">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
                 </div>
             </section>
 
@@ -271,7 +261,7 @@
                     <li><i class="fas fa-check-circle teal-text"></i> Teach first lesson</li>
                     <li><i class="fas fa-check-circle teal-text"></i> Learn a new skill</li>
                 </ul>
-                <button class="quest-btn">View All Quests</button>
+                <button class="quest-btn" onclick="location.href = 'userProfile.html'">View My Quests</button>
             </div>
         </aside>
     </div>
