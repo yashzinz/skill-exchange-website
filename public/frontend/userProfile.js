@@ -410,7 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
         title,
         author,
         description,
-        image: imageFile.name || "default_image_path.jpg", // Use a default image if none provided
+        image: imageFile.name || "", // Use a default image if none provided
         buttonText: "Start Quest",
       });
 
