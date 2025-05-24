@@ -11,8 +11,6 @@
   --light-teal: #d1f2eb;
   --input-bg: #3e576c;
   --skill-bg: #4a657c;
-  --skill-active-bg: var(--teal);
-  --accent-yellow: #f1c40f;
 }
 
 * {
@@ -23,7 +21,7 @@
 }
 
 body {
-  background-color: var(--darker-gray);
+  background-color: var(--off-white);
   color: var(--off-white);
   line-height: 1.6;
   display: flex;
@@ -32,7 +30,7 @@ body {
 }
 
 header {
-  background-color: var(--dark-gray);
+  background-color: var(--dark-teal);
   padding: 15px 50px;
   display: flex;
   justify-content: space-between;
@@ -43,7 +41,7 @@ header {
 .logo {
   font-size: 1.8em;
   font-weight: bold;
-  color: var(--accent-yellow);
+  color: var(--off-white);
 }
 
 nav ul {
@@ -58,12 +56,13 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   color: var(--off-white);
-  font-size: 1em;
+  font-size: 1.2em;
+  font-weight: 500
   transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-  color: var(--teal);
+  color: var(--coral);
 }
 
 nav ul li a i {
@@ -72,7 +71,7 @@ nav ul li a i {
 }
 
 .profile-icon {
-  background-color: var(--accent-yellow);
+  background-color: var(--off-white);
   color: var(--dark-gray);
   width: 40px;
   height: 40px;
@@ -90,7 +89,6 @@ main {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  position: relative; /* for bg image */
 }
 
 .onboarding-container {
@@ -98,19 +96,6 @@ main {
   width: 100%;
   max-width: 700px;
 }
-
-/* for bg image 
-.background-art {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url(''); 
-    opacity: 0.1; /* 
-    z-index: 0;
-    pointer-events: none; /* 
-} */
 
 .onboarding-box {
   background-color: var(--card-bg);
@@ -124,7 +109,7 @@ main {
 }
 
 .onboarding-box h2 {
-  color: var(--accent-yellow);
+  color: var(--off-white);
   margin-bottom: 10px;
   font-size: 1.8em;
 }
@@ -140,7 +125,7 @@ main {
   padding: 15px;
   margin-bottom: 30px;
   border: 1px solid var(--darker-gray);
-  background-color: var(--accent-yellow);
+  background-color: var(--white);
   color: var(--dark-gray); /* text color inside search */
   border-radius: 25px;
   font-size: 1em;
@@ -161,7 +146,7 @@ main {
 }
 
 .skill-tag {
-  background-color: var(--skill-bg);
+  background-color: var(--teal);
   color: var(--off-white);
   padding: 10px 20px;
   border-radius: 20px;
@@ -172,19 +157,19 @@ main {
 }
 
 .skill-tag:hover {
-  background-color: var(--dark-teal);
+  background-color: var(--coral);
   transform: translateY(-2px);
 }
 
 .skill-tag.active {
-  background-color: var(--skill-active-bg);
+  background-color: var(--coral);
   color: var(--white);
   font-weight: bold;
 }
 
 .next-button {
-  background-color: var(--accent-yellow);
-  color: var(--dark-gray);
+  background-color: var(--dark-teal);
+  color: var(--off-white);
   padding: 12px 35px;
   border: none;
   border-radius: 25px;
