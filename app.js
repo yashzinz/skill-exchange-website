@@ -1,4 +1,6 @@
 // import important modules to for storing and reading files
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -11,7 +13,7 @@ const adminauth = require("./middleware/adminmdw");
 
 // MongoDB connection
 mongoose
-  .connect("mongodb+srv://skillc:P1BhjZet7jjtiAm5@cluster0.frn3up5.mongodb.net/SkillCircleSignUp", {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -19,7 +21,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middlewares
 app.use(
