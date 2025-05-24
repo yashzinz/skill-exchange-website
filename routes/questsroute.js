@@ -47,7 +47,8 @@ router.post(
         title,
         author,
         description,
-        image: req.files?.image?.[0]?.path || "", // safely access uploaded image
+        image:
+          req.files?.image?.[0]?.path || "public/frontend/images/quest.jpg", // to safely access uploaded image
         videos: req.files?.videos
           ? req.files.videos.map((file) => file.path)
           : [],
