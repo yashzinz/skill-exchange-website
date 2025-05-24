@@ -381,7 +381,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const videoFiles = videoUploadInput.files; // Get video files
 
     // Validate the input fields
-    if (!title || !author || !description) {
+    if (
+      !title ||
+      !author ||
+      !description ||
+      !imageFile ||
+      videoFiles.length === 0
+    ) {
       alert("Please fill out all required fields.");
       return;
     }
@@ -410,7 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
         title,
         author,
         description,
-        image: imageFile.name || "images/quest.jpg", // Use a default image if none provided
+        image: imageFile.name,
         buttonText: "Start Quest",
       });
 
