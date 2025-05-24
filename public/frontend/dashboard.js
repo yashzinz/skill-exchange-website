@@ -1,53 +1,72 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const questsDisplay = document.getElementById("quests-display");
-    const nameDisplay = document.getElementById("name-display");
-    const pointsDisplay = document.getElementById("userpoints");
-    const searchInput = document.getElementById("skill-search");
-    const searchButton = document.getElementById("search-button");
+  const questsDisplay = document.getElementById("quests-display");
+  const nameDisplay = document.getElementById("name-display");
+  const pointsDisplay = document.getElementById("userpoints");
+  const searchInput = document.getElementById("skill-search");
+  const searchButton = document.getElementById("search-button");
+  const navProfileImg = document.querySelector(".user-profile img");
 
-    let allQuests = []; // Store all quests for searching
+  let allQuests = []; // Store all quests for searching
 
-    const loadProfile = async () => {
-        try {
-            const response = await fetch("/api/user");
-            
-            if (!response.ok) { 
-                throw new Error("Network response was not ok");
-            }
-            const user = await response.json();
-            nameDisplay.textContent = `WELCOME ${user.name.toUpperCase()}`;
-            pointsDisplay.innerHTML = `<div class="value coral-text" id="userpoints">${user.points}</div>`; // Display user's points
-            
-        } catch (error) {
-            console.error("Error loading profile:", error);
-            // Optionally, display an error message to the user
-            pointsDisplay.innerHTML = "Error loading points.";
+  const loadProfile = async () => {
+    try {
+      const response = await fetch("/api/user");
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const user = await response.json();
+      console.log("User avatarUrl:", user.avatarUrl); // Debug log
+      nameDisplay.textContent = `WELCOME ${user.name.toUpperCase()}`;
+      pointsDisplay.innerHTML = `<div class="value coral-text" id="userpoints">${user.points}</div>`; // Display user's points
+
+      if (user.avatarUrl) {
+        if (navProfileImg) {
+          let avatarUrl = user.avatarUrl;
+          if (
+            avatarUrl.includes("api.dicebear.com") &&
+            avatarUrl.includes("/svg")
+          ) {
+            avatarUrl = avatarUrl.replace("/svg", "/png");
+          }
+          avatarUrl = encodeURI(avatarUrl);
+          navProfileImg.setAttribute("src", avatarUrl);
         }
-    };
-    loadProfile();
-    
-    const loadQuests = async () => {
-        try {
-            const response = await fetch('/api/public-quests');
-            if (!response.ok) {
-            throw new Error('Failed to load quests');
-            }
-            allQuests = await response.json(); // Store all quests
-            displayQuests(allQuests); // Display all quests initially
-            } catch (error) {
-                console.error('Error loading quests:', error);
-            }
-    };
+      } else {
+        if (navProfileImg) {
+          navProfileImg.setAttribute("src", "frontend/images/no-profile.png");
+          navProfileImg.style.border = "2px solid orange";
+        }
+      }
+    } catch (error) {
+      console.error("Error loading profile:", error);
+      pointsDisplay.innerHTML = "Error loading points.";
+    }
+  };
+  loadProfile();
 
-    const displayQuests = (quests) => {
-        questsDisplay.innerHTML = '';
-        // Loop through each quest and create a card
-        quests.forEach((quest) => {
-            const questCard = document.createElement('a');
-            questCard.classList.add('skill-card-link');
-            questCard.href = `tutorial.html?questId=${quest._id}`; // Set the link for the quest
+  const loadQuests = async () => {
+    try {
+      const response = await fetch("/api/public-quests");
+      if (!response.ok) {
+        throw new Error("Failed to load quests");
+      }
+      allQuests = await response.json(); // Store all quests
+      displayQuests(allQuests); // Display all quests initially
+    } catch (error) {
+      console.error("Error loading quests:", error);
+    }
+  };
 
-            questCard.innerHTML = `
+  const displayQuests = (quests) => {
+    questsDisplay.innerHTML = "";
+    // Loop through each quest and create a card
+    quests.forEach((quest) => {
+      const questCard = document.createElement("a");
+      questCard.classList.add("skill-card-link");
+      questCard.href = `tutorial.html?questId=${quest._id}`; // Set the link for the quest
+
+      questCard.innerHTML = `
                 <div class="skill-card">
                 <div class="skill-image" style="background-image: url('images/dance.jpg')">
                     <div class="skill-badge">50+ learners</div>
@@ -64,18 +83,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
 
-            // Append the quest card to the display container
-            questsDisplay.appendChild(questCard);
-        });
-    };
-
-    searchButton.addEventListener("click", () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredQuests = allQuests.filter(quest => 
-            quest.title.toLowerCase().includes(searchTerm)
-        );
-        displayQuests(filteredQuests); // Display filtered quests
+      // Append the quest card to the display container
+      questsDisplay.appendChild(questCard);
     });
+  };
 
-    loadQuests();
+  searchButton.addEventListener("click", () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredQuests = allQuests.filter((quest) =>
+      quest.title.toLowerCase().includes(searchTerm)
+    );
+    displayQuests(filteredQuests); // Display filtered quests
+  });
+
+  loadQuests();
 });

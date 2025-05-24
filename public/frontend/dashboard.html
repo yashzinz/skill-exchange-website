@@ -1,49 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Courses</title>
-    <link rel="stylesheet" href="dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="dashboard-container">
+      <!----------------------- left navigation ------------------------------------>
+      <nav class="dashboard-nav">
+        <div class="nav-header">
+          <h1>Skill Circle</h1>
+        </div>
+        <ul class="nav-menu">
+          <li class="active">
+            <a href="#"><i class="fas fa-home"></i> Home</a>
+          </li>
+          <li>
+            <a href="homepage.html#about-section-anchor"
+              ><i class="fas fa-info-circle"></i> About Us</a
+            >
+          </li>
+          <li>
+            <a href="rewards.html"><i class="fas fa-trophy"></i> Rewards</a>
+          </li>
+        </ul>
+        <div class="user-profile">
+          <img src="" alt="User Profile" />
+          <a href="userProfile.html" class="skill-card-link"
+            ><span>My Profile</span></a
+          >
+        </div>
+      </nav>
 
-<!----------------------- left navigation ------------------------------------>
-        <nav class="dashboard-nav">
-            <div class="nav-header">
-                <h1>Skill Circle</h1>
-            </div> 
-            <ul class="nav-menu">
-                <li class="active"><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="homepage.html#about-section-anchor"><i class="fas fa-info-circle"></i> About Us</a></li>
-               <li><a href="rewards.html"><i class="fas fa-trophy"></i> Rewards</a></li> 
-            </ul>
-            <div class="user-profile">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User Profile">
-                <a href="userProfile.html" class="skill-card-link"><span>My Profile</span></a>
-            </div>
-        </nav>
+      <!--------------------------- main Content ----------------------------->
+      <main class="dashboard-main">
+        <!------------------------- search Section --------------------->
+        <section class="search-section">
+          <h2 id="name-display"></h2>
+          <p>
+            Type a skill... and discover who's ready to teach or learn with you.
+          </p>
+          <div class="search-bar">
+            <input
+              type="text"
+              id="skill-search"
+              placeholder="Search skills..."
+            />
+            <button id="search-button"><i class="fas fa-search"></i></button>
+          </div>
+        </section>
 
-<!--------------------------- main Content ----------------------------->
-        <main class="dashboard-main">
-            <!------------------------- search Section --------------------->
-            <section class="search-section">
-                <h2 id="name-display"></h2>
-                <p>Type a skill... and discover who's ready to teach or learn with you.</p>
-                <div class="search-bar">
-                    <input type="text" id="skill-search" placeholder="Search skills...">
-                    <button id="search-button"><i class="fas fa-search"></i></button>
-                </div>
-            </section>
-
-            <!----------------------------------------- skill cards section -------------------------------------------->
-            <section class="skills-grid">
-                <div id="quests-display" class="quest-container"></div>
-                <!-- dancing card -->
-                <!-- <a href="" class="skill-card-link" id="tutorial-link"><div class="skill-card" > 
+        <!----------------------------------------- skill cards section -------------------------------------------->
+        <section class="skills-grid">
+          <div id="quests-display" class="quest-container"></div>
+          <!-- dancing card -->
+          <!-- <a href="" class="skill-card-link" id="tutorial-link"><div class="skill-card" > 
                     <div class="skill-image" style="background-image: url('images/dance.jpg')">
                         <div class="skill-badge">50+ learners</div>
                     </div>
@@ -55,17 +72,15 @@
                                 <span id="author-name"></span>
                             </div>
                         </div> -->
-                        <!-- <div class="skill-rating">
+          <!-- <div class="skill-rating">
                             <span class="rating">★★★☆☆ (3.6)</span>
                             <span>50+ learners</span>
                         </div> -->
-                    <!-- </div>
+          <!-- </div>
                 </div> </a> -->
 
-
-
-                <!-- marketing -->
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+          <!-- marketing -->
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
                     <div class="skill-image" style="background-image: url('images/marketing.jpeg')">
                         <div class="skill-badge">30+ learners</div>
                     </div>
@@ -84,8 +99,8 @@
                     </div>
                 </div> </a> -->
 
-                <!-- learn cooking -->
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+          <!-- learn cooking -->
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
                     <div class="skill-image" style="background-image: url('images/cooking.jpg')">
                         <div class="skill-badge">300+ learners</div>
                     </div>
@@ -104,8 +119,8 @@
                     </div>
                 </div> </a> -->
 
-                <!-- ux/ui designing -->
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+          <!-- ux/ui designing -->
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
                     <div class="skill-image" style="background-image: url('images/design.jpeg')">
                         <div class="skill-badge">10+ learners</div>
                     </div>
@@ -125,8 +140,8 @@
                 </div>
                 </a> -->
 
-                <!-- singing  -->
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+          <!-- singing  -->
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
                     <div class="skill-image" style="background-image: url('images/singing.jpg')">
                         <div class="skill-badge">30+ learners</div>
                     </div>
@@ -146,8 +161,8 @@
                 </div>
                 </a> -->
 
-                <!-- sign language -->
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+          <!-- sign language -->
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
                     <div class="skill-image" style="background-image: url('images/signlang.jpg')">
                         <div class="skill-badge">200+ learners</div>
                     </div>
@@ -167,28 +182,7 @@
                 </div>
                 </a> -->
 
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
-                    <div class="skill-image" style="background-image: url('images/dance.jpg')">
-                        <div class="skill-badge">50+ learners</div>
-                    </div>
-                    <div class="skill-content">
-                        <h3>Dancing</h3>
-                        <div class="skill-users">
-                            <div class="user">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Smith John">
-                                <span>Smith John</span>
-                            </div>
-                        </div>
-                        <div class="skill-rating">
-                            <span class="rating">★★★★☆ (4.5)</span>
-                            <span>50+ learners</span>
-                        </div>
-                    </div>
-                </div>
-                </a> -->
-                
-
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
                     <div class="skill-image" style="background-image: url('images/dance.jpg')">
                         <div class="skill-badge">50+ learners</div>
                     </div>
@@ -208,7 +202,7 @@
                 </div>
                 </a> -->
 
-                <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
                     <div class="skill-image" style="background-image: url('images/dance.jpg')">
                         <div class="skill-badge">50+ learners</div>
                     </div>
@@ -227,46 +221,89 @@
                     </div>
                 </div>
                 </a> -->
-                
-            </section>
-        </main>
 
-        <!-- right xp panel -->
-        <aside class="xp-panel">
-            <div class="xp-card">
-                <h3>XP Points & Quests</h3>
-                <div class="xp-stats">
-                    <div class="stat" >
-                        <div class="value coral-text" id="userpoints">  </div>
-                        <h4>Total XP</h4>
+          <!-- <a href="tutorial.html" class="skill-card-link"><div class="skill-card">
+                    <div class="skill-image" style="background-image: url('images/dance.jpg')">
+                        <div class="skill-badge">50+ learners</div>
                     </div>
-                    <div class="stat">
-                        <div class="value coral-text">3/3</div>
-                        <h4>Quests</h4>
+                    <div class="skill-content">
+                        <h3>Dancing</h3>
+                        <div class="skill-users">
+                            <div class="user">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Smith John">
+                                <span>Smith John</span>
+                            </div>
+                        </div>
+                        <div class="skill-rating">
+                            <span class="rating">★★★★☆ (4.5)</span>
+                            <span>50+ learners</span>
+                        </div>
                     </div>
                 </div>
-                <div class="progress-ring">
-                    <svg width="120" height="120">
-                        <circle class="ring-bg" cx="60" cy="60" r="55" stroke-width="8"></circle>
-                        <circle class="ring-progress" cx="60" cy="60" r="55" stroke-width="8" stroke-dasharray="314" stroke-dashoffset="78.5"></circle>
-                    </svg>
-                    <div class="progress-text">75%</div>
-                </div>
+                </a> -->
+        </section>
+      </main>
+
+      <!-- right xp panel -->
+      <aside class="xp-panel">
+        <div class="xp-card">
+          <h3>XP Points & Quests</h3>
+          <div class="xp-stats">
+            <div class="stat">
+              <div class="value coral-text" id="userpoints"></div>
+              <h4>Total XP</h4>
             </div>
-            
-            <div class="quests">
-                <h4>Current Quests</h4>
-                <ul>
-                    <li><i class="fas fa-check-circle teal-text"></i> Complete profile</li>
-                    <li><i class="fas fa-check-circle teal-text"></i> Teach first lesson</li>
-                    <li><i class="fas fa-check-circle teal-text"></i> Learn a new skill</li>
-                </ul>
-                <button class="quest-btn" onclick="location.href = 'userProfile.html'">View My Quests</button>
+            <div class="stat">
+              <div class="value coral-text">3/3</div>
+              <h4>Quests</h4>
             </div>
-        </aside>
+          </div>
+          <div class="progress-ring">
+            <svg width="120" height="120">
+              <circle
+                class="ring-bg"
+                cx="60"
+                cy="60"
+                r="55"
+                stroke-width="8"
+              ></circle>
+              <circle
+                class="ring-progress"
+                cx="60"
+                cy="60"
+                r="55"
+                stroke-width="8"
+                stroke-dasharray="314"
+                stroke-dashoffset="78.5"
+              ></circle>
+            </svg>
+            <div class="progress-text">75%</div>
+          </div>
+        </div>
+
+        <div class="quests">
+          <h4>Current Quests</h4>
+          <ul>
+            <li>
+              <i class="fas fa-check-circle teal-text"></i> Complete profile
+            </li>
+            <li>
+              <i class="fas fa-check-circle teal-text"></i> Teach first lesson
+            </li>
+            <li>
+              <i class="fas fa-check-circle teal-text"></i> Learn a new skill
+            </li>
+          </ul>
+          <button
+            class="quest-btn"
+            onclick="location.href = 'userProfile.html'"
+          >
+            View My Quests
+          </button>
+        </div>
+      </aside>
     </div>
 
     <script src="dashboard.js"></script>
-
-</body>
+  </body>
 </html>

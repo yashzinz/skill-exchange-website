@@ -13,13 +13,13 @@ const UserSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},
     password: { type: String, required: true },
     videos: {  type: [String],  default: [] },
-    skills: {  type: [String],  default: [] 
-    },
+    skills: {  type: [String],  default: [] },
     fieldOfStudy: {  type: String },
     certification: { type: String  },
     experience: {  type: String },
     quests: { type: [QuestSchema], default: [] },
-    points: { type: Number }
+    points: { type: Number },
+    avatarUrl: { type: String, default: '' }
 });
 
 module.exports = mongoose.model('User', UserSchema);

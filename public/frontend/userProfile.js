@@ -19,11 +19,6 @@ function setupMenu() {
     sideMenu.classList.add("open");
     hamburger.classList.add("hidden"); // Hide the hamburger icon
   });
-
-  closeButton.addEventListener("click", () => {
-    sideMenu.classList.remove("open");
-    hamburger.classList.remove("hidden"); // Show the hamburger icon
-  });
 }
 
 // set up profile
@@ -47,7 +42,7 @@ function setupProfile() {
   const loadProfile = () => {
     fetch("/api/user")
       .then((response) => {
-        if (!response.ok) { 
+        if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
@@ -101,7 +96,6 @@ function setupProfile() {
   //event listeners
   editProfileButton.addEventListener("click", () => {
     profileForm.classList.remove("hidden");
-    profileInfo.classList.add("hidden");
   });
   saveProfileButton.addEventListener("click", () => {
     saveProfile();
@@ -312,11 +306,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoUploadInput = document.getElementById("video-upload");
 
   // Load quests from the database
-const loadQuests = async (category) => {
+  const loadQuests = async (category) => {
+    questsDisplay.innerHTML = "";
 
-  questsDisplay.innerHTML = "";
-
-  if (category === "completed") {
+    if (category === "completed") {
       // Display pre-existing completed quests
       quests.completed.forEach((quest) => {
         const questCard = document.createElement("div");
@@ -337,9 +330,9 @@ const loadQuests = async (category) => {
       } else {
         noQuestsMessage.style.display = "none"; // Hide "No quests" message
       }
-  }
+    }
 
-  if (category === "inProgress") {
+    if (category === "inProgress") {
       // Display pre-existing completed quests
       quests.inProgress.forEach((quest) => {
         const questCard = document.createElement("div");
@@ -360,8 +353,8 @@ const loadQuests = async (category) => {
       } else {
         noQuestsMessage.style.display = "none"; // Hide "No quests" message
       }
-  }
-};
+    }
+  };
 
   // Open modal
   addQuestBtn.addEventListener("click", () => {
@@ -381,14 +374,16 @@ const loadQuests = async (category) => {
   submitQuestBtn.addEventListener("click", async () => {
     const title = document.getElementById("quest-title").value.trim();
     const author = document.getElementById("quest-author").value.trim();
-    const description = document.getElementById("quest-description").value.trim();
+    const description = document
+      .getElementById("quest-description")
+      .value.trim();
     const imageFile = document.getElementById("quest-image").files[0]; // Get the image file
     const videoFiles = videoUploadInput.files; // Get video files
 
     // Validate the input fields
     if (!title || !author || !description) {
-        alert("Please fill out all required fields.");
-        return;
+      alert("Please fill out all required fields.");
+      return;
     }
 
     const formData = new FormData();
@@ -397,18 +392,18 @@ const loadQuests = async (category) => {
     formData.append("description", description);
     formData.append("image", imageFile);
     // Append each video file to the FormData
-    Array.from(videoFiles).forEach(file => {
-        formData.append("videos", file);
+    Array.from(videoFiles).forEach((file) => {
+      formData.append("videos", file);
     });
 
-    try{
+    try {
       const response = await fetch("/api/quests", {
-            method: "POST",
-            body: formData,
-        });
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) {
-            throw new Error("Failed to save quest");
+        throw new Error("Failed to save quest");
       }
       // Add the new quest to the created list
       quests.created.push({
@@ -419,16 +414,14 @@ const loadQuests = async (category) => {
         buttonText: "Start Quest",
       });
 
-
       document.getElementById("quest-title").value = "";
       document.getElementById("quest-author").value = "";
       document.getElementById("quest-description").value = "";
       document.getElementById("quest-image").value = "";
 
       modal.style.display = "none";
-
     } catch (error) {
-        console.error("Error saving quest:", error);
+      console.error("Error saving quest:", error);
     }
   });
 
@@ -437,20 +430,20 @@ const loadQuests = async (category) => {
     questsDisplay.innerHTML = ""; // Clear existing quests
 
     try {
-        const response = await fetch("/api/quests"); // Fetch quests from the server
-        if (!response.ok) {
-            throw new Error("Failed to load quests");
-        }
-        const quests = await response.json(); // Parse the JSON response
+      const response = await fetch("/api/quests"); // Fetch quests from the server
+      if (!response.ok) {
+        throw new Error("Failed to load quests");
+      }
+      const quests = await response.json(); // Parse the JSON response
 
-        if (quests.length === 0) {
-            questsDisplay.innerHTML = `<p id="no-quests-message">No quests created yet.</p>`;
-        } else {
-            quests.forEach((quest) => {
-                const questCard = document.createElement("div");
-                questCard.classList.add("quest-card");
+      if (quests.length === 0) {
+        questsDisplay.innerHTML = `<p id="no-quests-message">No quests created yet.</p>`;
+      } else {
+        quests.forEach((quest) => {
+          const questCard = document.createElement("div");
+          questCard.classList.add("quest-card");
 
-                questCard.innerHTML = `
+          questCard.innerHTML = `
                     <img src="/${quest.image}" alt="${quest.title}" />
                     <div class="quest-card-content">
                         <h3 class="quest-card-title">${quest.title}</h3>
@@ -458,49 +451,49 @@ const loadQuests = async (category) => {
                         <p class="quest-card-description">${quest.description}</p>
                     </div>
                 `;
-                // Create Start Quest button
-                const startButton = document.createElement("button");
-                startButton.textContent = quest.buttonText || "Start Quest";
-                startButton.id = `start-quest-${quest._id}`;
-                startButton.textContent = "Start Quest";
-                startButton.addEventListener("click", () => {
-                    window.location.href = "tutorial.html?questId=" + quest._id;
-                });
+          // Create Start Quest button
+          const startButton = document.createElement("button");
+          startButton.textContent = quest.buttonText || "Start Quest";
+          startButton.id = `start-quest-${quest._id}`;
+          startButton.textContent = "Start Quest";
+          startButton.addEventListener("click", () => {
+            window.location.href = "tutorial.html?questId=" + quest._id;
+          });
 
-                questCard.appendChild(startButton);
+          questCard.appendChild(startButton);
 
-                // If showDelete is true, create and append Delete button
-                if (showDelete) {
-                    const deleteButton = document.createElement("button");
-                    deleteButton.id = `delete-quest-${quest._id}`;
-                    deleteButton.classList.add("delete-quest-btn");
-                    deleteButton.style.marginLeft = "8px";
-                    deleteButton.style.background = "#e74c3c";
-                    deleteButton.style.color = "white";
-                    deleteButton.textContent = "Delete";
-                    deleteButton.addEventListener("click", () => {
-                        setQuestIdToDelete(quest._id); // Set the quest ID for deletion
-                        const modal = document.getElementById("delete-confirm-modal");
-                        modal.classList.remove("hide");
-                        modal.style.display = "block"; // Show the confirmation modal
-                    });
-                    questCard.appendChild(deleteButton);
-                }
-                questsDisplay.appendChild(questCard);
+          // If showDelete is true, create and append Delete button
+          if (showDelete) {
+            const deleteButton = document.createElement("button");
+            deleteButton.id = `delete-quest-${quest._id}`;
+            deleteButton.classList.add("delete-quest-btn");
+            deleteButton.style.marginLeft = "8px";
+            deleteButton.style.background = "#e74c3c";
+            deleteButton.style.color = "white";
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", () => {
+              setQuestIdToDelete(quest._id); // Set the quest ID for deletion
+              const modal = document.getElementById("delete-confirm-modal");
+              modal.classList.remove("hide");
+              modal.style.display = "block"; // Show the confirmation modal
             });
-        }
+            questCard.appendChild(deleteButton);
+          }
+          questsDisplay.appendChild(questCard);
+        });
+      }
     } catch (error) {
-        console.error("Error displaying quests:", error);
-        questsDisplay.innerHTML = `<p id="no-quests-message">Error loading quests. Please try again later.</p>`;
+      console.error("Error displaying quests:", error);
+      questsDisplay.innerHTML = `<p id="no-quests-message">Error loading quests. Please try again later.</p>`;
     }
-};
+  };
 
   // Event listeners for category buttons
   completedQuestsBtn.addEventListener("click", () => loadQuests("completed"));
   inProgressQuestsBtn.addEventListener("click", () => loadQuests("inProgress"));
   createdQuestsBtn.addEventListener("click", () => displayQuests(true));
 
-   // Initial load of completed quests
+  // Initial load of completed quests
   loadQuests("completed");
 });
 
@@ -511,42 +504,99 @@ const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
 const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
 
 confirmDeleteBtn.addEventListener("click", async () => {
-    if (questIdToDelete !== null) {
-        try {
-          const questIndex = quests.created.findIndex(quest => quest._id === questIdToDelete);
-            // If the quest is found, remove it from the created array
-            if (questIndex !== -1) {
-                quests.created.splice(questIndex, 1); // Remove the quest from the array
-            }
+  if (questIdToDelete !== null) {
+    try {
+      const questIndex = quests.created.findIndex(
+        (quest) => quest._id === questIdToDelete
+      );
+      // If the quest is found, remove it from the created array
+      if (questIndex !== -1) {
+        quests.created.splice(questIndex, 1); // Remove the quest from the array
+      }
 
-          const response = await fetch(`/api/quests/${questIdToDelete}`, {
-              method: "DELETE",
-          });
+      const response = await fetch(`/api/quests/${questIdToDelete}`, {
+        method: "DELETE",
+      });
 
-          if (!response.ok) {
-              throw new Error("Failed to delete quest");
-          }
+      if (!response.ok) {
+        throw new Error("Failed to delete quest");
+      }
 
-          // Reload quests to reflect the deletion
-          displayQuests(true);
-          questIdToDelete = null; // Reset the quest ID
-          deleteConfirmModal.classList.add("hide");
-          deleteConfirmModal.style.display = "none";
-      } catch (error) {
-          console.error("Error deleting quest:", error);
-        }
+      // Reload quests to reflect the deletion
+      displayQuests(true);
+      questIdToDelete = null; // Reset the quest ID
+      deleteConfirmModal.classList.add("hide");
+      deleteConfirmModal.style.display = "none";
+    } catch (error) {
+      console.error("Error deleting quest:", error);
     }
+  }
 });
 
 cancelDeleteBtn.addEventListener("click", () => {
-    questIdToDelete = null; // Reset the quest ID
-    deleteConfirmModal.classList.add("hide");
-    deleteConfirmModal.style.display = "none";
+  questIdToDelete = null; // Reset the quest ID
+  deleteConfirmModal.classList.add("hide");
+  deleteConfirmModal.style.display = "none";
 });
 
 // Function to set the quest ID to delete
 function setQuestIdToDelete(questId) {
-    questIdToDelete = questId;
-    deleteConfirmModal.classList.remove("hide");
-    deleteConfirmModal.style.display = "block";
+  questIdToDelete = questId;
+  deleteConfirmModal.classList.remove("hide");
+  deleteConfirmModal.style.display = "block";
 }
+
+// Avatar Modal
+document
+  .getElementById("edit-avatar-btn")
+  .addEventListener("click", function () {
+    document.getElementById("avatar-modal").classList.add("show");
+  });
+document
+  .getElementById("close-avatar-modal")
+  .addEventListener("click", function () {
+    document.getElementById("avatar-modal").classList.remove("show");
+  });
+
+// Avatar selection
+const avatarOptions = document.querySelectorAll(".avatar-option");
+const profileAvatar = document.getElementById("profileAvatar");
+const navProfileImg = document.querySelector(".user-prof img");
+
+let selectedAvatarSrc = null;
+
+// On page load, fetch and set avatar for profile and nav bar
+fetch("/api/user")
+  .then((res) => res.json())
+  .then((user) => {
+    if (user.avatarUrl) {
+      profileAvatar.src = user.avatarUrl;
+      if (navProfileImg) navProfileImg.src = user.avatarUrl;
+    } else {
+      profileAvatar.src = "frontend/images/no-profile.png";
+      if (navProfileImg) navProfileImg.src = "frontend/images/no-profile.png";
+    }
+  });
+
+avatarOptions.forEach((option) => {
+  option.addEventListener("click", function () {
+    avatarOptions.forEach((opt) => opt.classList.remove("selected"));
+    this.classList.add("selected");
+    selectedAvatarSrc = this.src;
+  });
+});
+
+const saveAvatarBtn = document.getElementById("save-avatar-btn");
+saveAvatarBtn.addEventListener("click", function () {
+  if (selectedAvatarSrc) {
+    profileAvatar.src = selectedAvatarSrc;
+    if (navProfileImg) navProfileImg.src = selectedAvatarSrc;
+    // Save avatar to DB
+    fetch("/api/user/avatar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ avatarUrl: selectedAvatarSrc }),
+    });
+  }
+  document.getElementById("avatar-modal").classList.remove("show");
+});

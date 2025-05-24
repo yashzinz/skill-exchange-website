@@ -18,7 +18,6 @@
     <!--------------NAV BAR----------------->
 
     <nav id="sideMenu" class="menu">
-      <button id="closeButton" class="close-button">&times;</button>
       <h1>Skill Circle</h1>
       <ul>
         <li>
@@ -28,7 +27,9 @@
           <a href="rewards.html"><i class="fas fa-trophy"></i> Rewards</a>
         </li>
         <li>
-          <a href="homePage.html#about-section-anchor"><i class="fas fa-info-circle"></i> About</a>
+          <a href="homePage.html#about-section-anchor"
+            ><i class="fas fa-info-circle"></i> About</a
+          >
         </li>
       </ul>
       <div class="user-prof active">
@@ -43,20 +44,175 @@
     <!-----------USER PROFILE--------------->
     <main class="main-content">
       <section class="profile">
-        <div class="profile-header">
-          <img id="profileAvatar" class="avatar" alt="User Avatar" />
-          <div class="profile-info">
-            <h1 id="name-display">Welcome, User</h1>
-            <p id="field-display">
-              <strong>Field of Study:</strong> Not provided
-            </p>
-            <p id="cert-display">
-              <strong>Socials:</strong> Not provided
-            </p>
-            <p id="exp-display"><strong>Experience:</strong> Not provided</p>
-            <button type="button" id="edit-profile-button" class="edit-btn">
-              Edit Profile
+        <div
+          class="profile-header"
+          style="
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+          "
+        >
+          <div class="avatar-container">
+            <img
+              id="profileAvatar"
+              class="avatar"
+              alt="User Avatar"
+              src="public\frontend\images\no-profile.png"
+            />
+            <button
+              id="edit-avatar-btn"
+              class="edit-btn avatar-edit-overlay"
+              title="Edit Avatar"
+              aria-label="Edit Avatar"
+            >
+              <i class="fas fa-pen"></i>
             </button>
+          </div>
+
+          <!-- Avatar Edit Modal -->
+          <div id="avatar-modal" class="modal hide">
+            <div
+              class="modal-content"
+              style="max-width: 370px; text-align: center"
+            >
+              <span id="close-avatar-modal" class="close-button">&times;</span>
+              <h2>Choose Your Avatar</h2>
+              <div
+                id="avatar-options"
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 18px;
+                  justify-content: center;
+                  margin: 18px 0 22px 0;
+                "
+              >
+                <img class="avatar-option"
+                src=https://api.dicebear.com/7.x/avataaars/svg?seed=developer
+                alt="Developer Avatar" />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=teacher"
+                  alt="Teacher Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=chef"
+                  alt="Chef Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=doctor"
+                  alt="Doctor Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=engineer"
+                  alt="Engineer Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=designer"
+                  alt="Designer Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=writer"
+                  alt="Writer Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=musician"
+                  alt="Musician Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=photographer"
+                  alt="Photographer Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=artist"
+                  alt="Artist Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=electrician"
+                  alt="Electrician Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=plumber"
+                  alt="Plumber Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=mechanic"
+                  alt="Mechanic Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=barber"
+                  alt="Barber Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=lawyer"
+                  alt="Lawyer Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=nurse"
+                  alt="Nurse Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=scientist"
+                  alt="Scientist Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=dataanalyst"
+                  alt="Data Analyst Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=digitalmarketer"
+                  alt="Digital Marketer Avatar"
+                />
+                <img
+                  class="avatar-option"
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=accountant"
+                  alt="Accountant Avatar"
+                />
+              </div>
+              <button type="button" id="save-avatar-btn">Save Avatar</button>
+            </div>
+          </div>
+          <div class="profile-info" style="flex: 1">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+              "
+            >
+              <h1 id="name-display" style="margin: 0">Welcome, User</h1>
+              <button
+                type="button"
+                id="edit-profile-button"
+                class="edit-btn"
+                style="margin-left: 24px"
+              >
+                <i class="fas fa-pen"></i>
+              </button>
+            </div>
+            <p id="field-display">
+              <strong>Field of Study :</strong> Not provided
+            </p>
+            <p id="cert-display"><strong>Socials :</strong> Not provided</p>
+            <p id="exp-display"><strong>Experience :</strong> Not provided</p>
           </div>
         </div>
 
@@ -91,7 +247,19 @@
           </label>
           <button type="button" id="save-profile">Save Profile</button>
         </form>
-
+        <!----Bio section---->
+        <section class="bio">
+          <h2>Bio</h2>
+          <button type="button" id="edit-bio-button">
+            <i class="fas fa-pen"></i>
+          </button>
+          <p id="bio-display">No bio added yet.</p>
+          <form id="bio-form" class="hide">
+            <textarea id="bio-input" placeholder="Add your bio"></textarea>
+            <button type="button" id="save-bio-button">Save</button>
+            <button type="button" id="cancel-bio-button">Cancel</button>
+          </form>
+        </section>
         <!----Skills section---->
         <section class="skills">
           <h2>Skills</h2>
@@ -106,30 +274,26 @@
           </form>
         </section>
 
-        <!----Bio section---->
-        <section class="bio">
-          <h2>Bio</h2>
-          <p id="bio-display">No bio added yet.</p>
-          <button type="button" id="edit-bio-button">Edit Bio</button>
-          <form id="bio-form" class="hide">
-            <textarea id="bio-input" placeholder="Enter your bio"></textarea>
-            <button type="button" id="save-bio-button">Save</button>
-            <button type="button" id="cancel-bio-button">Cancel</button>
-          </form>
-        </section>
-
         <!----Quests section---->
         <section id="quests-section">
-          <h2>Quests</h2>
+          <h2>
+            <i class="fas fa-archive"></i>
+            <span style="color: #111">Quests</span>
+          </h2>
           <div id="quest-categories">
             <button id="completed-quests-btn" class="quest-category-btn">
-              Completed Quests
+              <span class="quest-icon"><i class="fas fa-star"></i></span>
+              <span>Completed Quests</span>
             </button>
             <button id="in-progress-quests-btn" class="quest-category-btn">
-              Quests In Progress
+              <span class="quest-icon">
+                <i class="fas fa-ellipsis-h"></i>
+              </span>
+              <span>Quests in progress</span>
             </button>
             <button id="created-quests-btn" class="quest-category-btn">
-              Quests Created
+              <span class="quest-icon"><i class="fas fa-check"></i></span>
+              <span>Quests Created</span>
             </button>
           </div>
 
@@ -169,12 +333,7 @@
                 ></textarea>
 
                 <label for="quest-image">Image URL:</label>
-                <input
-                  type="file"
-                  id="quest-image"
-                  accept="image/*"
-                  required
-                />
+                <input type="file" id="quest-image" accept="image/*" required />
 
                 <label for="video-upload">Upload Videos:</label>
                 <input
@@ -207,6 +366,7 @@
         </div>
       </div>
     </div>
+
     <script src="userProfile.js"></script>
   </body>
 </html>
